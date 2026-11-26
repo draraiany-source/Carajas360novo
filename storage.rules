@@ -1,0 +1,96 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isImage() {
+      return request.resource.contentType.matches('image/.*') &&
+             request.resource.size < 8 * 1024 * 1024;
+    }
+    function isDocOrImage() {
+      return (request.resource.contentType.matches('image/.*') ||
+              request.resource.contentType.matches('application/pdf') ||
+              request.resource.contentType.matches('audio/.*')) &&
+             request.resource.size < 15 * 1024 * 1024;
+    }
+    function isAdmin() {
+      return request.auth != null &&
+        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.type == 'admin';
+    }
+    function isParticipant(roomId) {
+      return request.auth != null &&
+        request.auth.uid in firestore.get(/databases/(default)/documents/chatRooms/$(roomId)).data.participants;
+    }
+
+    match /users/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId && isImage();
+    }
+
+    match /providers/{userId}/photo/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId && isImage();
+    }
+
+    match /providers/{userId}/{docType}/{allPaths=**} {
+      allow read: if request.auth != null &&
+        (request.auth.uid == userId || isAdmin());
+      allow write: if request.auth != null && request.auth.uid == userId && isDocOrImage();
+    }
+
+    match /orders/{orderId}/{allPaths=**} {
+      allow read: if request.auth != null && (
+        firestore.get(/databases/(default)/documents/orders/$(orderId)).data.clientId
+          == request.auth.uid ||
+        firestore.get(/databases/(default)/documents/orders/$(orderId)).data.providerId
+          == request.auth.uid ||
+        isAdmin()
+      );
+      allow write: if request.auth != null && isDocOrImage() && (
+        firestore.get(/databases/(default)/documents/orders/$(orderId)).data.clientId
+          == request.auth.uid ||
+        firestore.get(/databases/(default)/documents/orders/$(orderId)).data.providerId
+          == request.auth.uid ||
+        isAdmin()
+      );
+    }
+
+    match /stores/{storeId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null && isImage() &&
+        firestore.get(/databases/(default)/documents/stores/$(storeId)).data.ownerId == request.auth.uid;
+    }
+
+    match /rentals/{rentalId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null && isImage() &&
+        firestore.get(/databases/(default)/documents/rentals/$(rentalId)).data.ownerId == request.auth.uid;
+    }
+
+    match /service-requests/{requestId}/{allPaths=**} {
+      function requestDoc() {
+        return firestore.get(/databases/(default)/documents/resolveRequests/$(requestId)).data;
+      }
+      allow read: if request.auth != null && (
+        requestDoc().clientId == request.auth.uid ||
+        (
+          requestDoc().keys().hasAny(['sharedWith']) &&
+          request.auth.uid in requestDoc().sharedWith
+        ) ||
+        isAdmin()
+      );
+      allow write: if request.auth != null && isImage() && (
+        requestDoc().clientId == request.auth.uid ||
+        (
+          requestDoc().keys().hasAny(['sharedWith']) &&
+          request.auth.uid in requestDoc().sharedWith
+        ) ||
+        isAdmin()
+      );
+    }
+
+    match /chat_media/{roomId}/{allPaths=**} {
+      allow read: if isParticipant(roomId);
+      allow write: if isParticipant(roomId) && isDocOrImage();
+    }
+  }
+}

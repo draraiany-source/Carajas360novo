@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360">
+<rect width="360" height="360" rx="28" fill="#EAF0FF"/><path opacity="0.1" fill="#1652F0" d="M210 70
+      C210 -3.5 245.0 -14.0 280 0
+      C318.5 -10.5 350 35.0 350 70
+      C350 115.5 322.0 143.5 280 143.5
+      C241.5 143.5 210 112.0 210 70 Z"/><g transform="translate(120,150) scale(1.1)">
+<path fill="#1652F0" d="M0 -30c10 0 18 8 18 18 0 13-18 30-18 30s-18-17-18-30c0-10 8-18 18-18z"/>
+<circle cx="0" cy="-12" r="7" fill="#FFFFFF"/>
+</g><g transform="translate(230,110) scale(0.75)">
+<path fill="#C7CCD6" d="M0 -30c10 0 18 8 18 18 0 13-18 30-18 30s-18-17-18-30c0-10 8-18 18-18z"/>
+<circle cx="0" cy="-12" r="7" fill="#FFFFFF"/>
+</g><g transform="translate(255,200) scale(0.85)">
+<path fill="#C7CCD6" d="M0 -30c10 0 18 8 18 18 0 13-18 30-18 30s-18-17-18-30c0-10 8-18 18-18z"/>
+<circle cx="0" cy="-12" r="7" fill="#FFFFFF"/>
+</g><circle cx="205" cy="230" r="38" fill="none" stroke="#12141C" stroke-width="9"/><line x1="232" y1="257" x2="258" y2="283" stroke="#12141C" stroke-width="10" stroke-linecap="round"/><circle cx="205" cy="230" r="38" fill="#FF5A36" opacity="0.12"/>
+</svg>

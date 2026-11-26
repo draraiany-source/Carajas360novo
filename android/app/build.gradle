@@ -1,0 +1,117 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+}
+
+// ── Assinatura de release (obrigatório para publicar na Play Store) ──
+// 1. Gere seu keystore:
+//    keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA \
+//      -keysize 2048 -validity 10000 -alias upload
+// 2. Crie android/key.properties (NÃO versionar) com:
+//    storePassword=SUA_SENHA
+//    keyPassword=SUA_SENHA
+//    keyAlias=upload
+//    storeFile=/caminho/absoluto/para/upload-keystore.jks
+// Sem key.properties o build de RELEASE falha (não assina com debug).
+// Use android/key.properties.example como modelo.
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+def hasReleaseKeystore = keystorePropertiesFile.exists()
+if (hasReleaseKeystore) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+// Maps API key: android/local.properties → MAPS_API_KEY=AIza...
+// (não versionar a key). Fallback mantém placeholder explícito.
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { localProperties.load(it) }
+}
+def mapsApiKey = localProperties.getProperty('MAPS_API_KEY') ?: 'COLE_SUA_GOOGLE_MAPS_API_KEY_AQUI'
+
+android {
+    namespace "br.com.servicoconecta"
+    compileSdk flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions { jvmTarget = '17' }
+    sourceSets { main.java.srcDirs += 'src/main/kotlin' }
+
+    defaultConfig {
+        applicationId "br.com.servicoconecta"
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutter.versionCode
+        versionName flutter.versionName
+        multiDexEnabled true
+        manifestPlaceholders += [MAPS_API_KEY: mapsApiKey]
+    }
+
+    signingConfigs {
+        if (hasReleaseKeystore) {
+            release {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            // Assinatura release só se houver keystore. A falha sem
+            // key.properties é adiada para tasks de release (whenReady),
+            // para não impedir assembleDebug.
+            if (hasReleaseKeystore) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+// Bloqueia assembleRelease/bundleRelease sem keystore — não afeta debug.
+gradle.taskGraph.whenReady { graph ->
+    def needsReleaseKey = graph.allTasks.any { t ->
+        def n = t.name.toLowerCase()
+        n.contains('release') && (
+            n.contains('assemble') ||
+            n.contains('bundle') ||
+            n.contains('shrink') ||
+            n.contains('minify')
+        )
+    }
+    if (needsReleaseKey && !hasReleaseKeystore) {
+        throw new GradleException(
+            "Release exige android/key.properties (veja key.properties.example). " +
+            "Não usamos assinatura debug em release — Play Store rejeitaria o AAB.")
+    }
+}
+
+flutter { source '../..' }
+
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.google.android.gms:play-services-location:21.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    // Flutter deferred components / R8: stubs do Play Feature Delivery
+    implementation 'com.google.android.play:feature-delivery:2.1.0'
+    implementation 'com.google.android.play:core-common:2.0.3'
+}

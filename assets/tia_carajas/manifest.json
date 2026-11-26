@@ -1,0 +1,108 @@
+{
+  "notes": "Recortes oficiais a partir dos mockups. Fundo removido. Poses sem referência visual fiel ficam pendentes para ilustrador/3D.",
+  "poses": [
+    {
+      "id": "recepcionando",
+      "file": "assets/tia_carajas/recepcionando.webp",
+      "fidelity": "extracted",
+      "source": "08.png",
+      "bytes": 38884,
+      "size": [
+        357,
+        495
+      ],
+      "note": "Meio corpo sem headset, tela Central (mockup 8). Fundo removido com rembg."
+    },
+    {
+      "id": "apresentando",
+      "file": "assets/tia_carajas/apresentando.webp",
+      "fidelity": "extracted",
+      "source": "03.png",
+      "bytes": 13320,
+      "size": [
+        204,
+        250
+      ],
+      "note": "Meio corpo com headset e mão aberta, hero da Início (mockup 3)."
+    },
+    {
+      "id": "escutando_voz",
+      "file": "assets/tia_carajas/escutando_voz.webp",
+      "fidelity": "closest_crop",
+      "source": "10.png",
+      "bytes": 13852,
+      "size": [
+        227,
+        221
+      ],
+      "note": "Close com headset e microfone, banner da Central web (mockup 10). Não é uma pose exclusiva de escuta; é o recorte mais próximo."
+    },
+    {
+      "id": "suporte",
+      "file": "assets/tia_carajas/suporte.webp",
+      "fidelity": "extracted",
+      "source": "09.png",
+      "bytes": 15456,
+      "size": [
+        249,
+        266
+      ],
+      "note": "Headset e mão aberta no painel de solicitação (mockup 9)."
+    },
+    {
+      "id": "confirmando",
+      "file": "assets/tia_carajas/confirmando.webp",
+      "fidelity": "closest_crop",
+      "source": "04.png",
+      "bytes": 25690,
+      "size": [
+        378,
+        326
+      ],
+      "note": "Mesma identidade na tela de agendamento (mockup 4), gesto de apresentar. Não há pose exclusiva de confirmação."
+    },
+    {
+      "id": "orientando",
+      "file": "assets/tia_carajas/orientando.webp",
+      "fidelity": "closest_crop",
+      "source": "01.png",
+      "bytes": 8708,
+      "size": [
+        137,
+        210
+      ],
+      "note": "Recorte do widget flutuante (mockup 1). Resolução menor que os demais."
+    }
+  ],
+  "avatar": {
+    "file": "assets/tia_carajas/avatar.webp",
+    "bytes": 10974,
+    "note": "Avatar circular a partir do recorte recepcionando."
+  },
+  "pending_poses": [
+    {
+      "id": "corpo_inteiro",
+      "reason": "Os mockups só mostram meio corpo. Não há corpo inteiro para recortar."
+    },
+    {
+      "id": "analisando_fotos",
+      "reason": "Nenhum mockup mostra a personagem olhando fotos. Usar apresentando até haver arte nova.",
+      "fallback": "apresentando"
+    },
+    {
+      "id": "processando",
+      "reason": "Não há pose de processamento. Não foi duplicada uma arte falsa.",
+      "fallback": "recepcionando"
+    },
+    {
+      "id": "apresentando_orcamentos",
+      "reason": "Não há pose com propostas na mão.",
+      "fallback": "apresentando"
+    },
+    {
+      "id": "comemorando",
+      "reason": "Não há pose de comemoração.",
+      "fallback": "recepcionando"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+<defs><linearGradient id="g_proximos" x1="0" y1="0" x2="1200" y2="400" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#1652F0"/><stop offset="1" stop-color="#3A6BFF"/></linearGradient></defs>
+<rect width="1200" height="400" rx="28" fill="url(#g_proximos)"/><path opacity="0.08" fill="#FFFFFF" d="M940 300
+      C940 195.0 990.0 180.0 1040 200
+      C1095.0 185.0 1140 250.0 1140 300
+      C1140 365.0 1100.0 405.0 1040 405.0
+      C985.0 405.0 940 360.0 940 300 Z"/><rect x="64" y="64" width="188.5" height="40" rx="20" fill="#FFFFFF"/>
+<text x="158.25" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#1652F0">PERTO DE VOCÊ</text><text x="64" y="170" font-family="Sora, sans-serif" font-weight="800" font-size="46" fill="#FFFFFF">Profissionais próximos agora</text>
+<text x="64" y="215" font-family="Inter, sans-serif" font-weight="500" font-size="22" fill="#FFFFFF" opacity="0.9">Encontre quem pode te atender hoje</text><g transform="translate(1000,220) scale(1.1)">
+<path fill="#FFFFFF" d="M0 -30c10 0 18 8 18 18 0 13-18 30-18 30s-18-17-18-30c0-10 8-18 18-18z"/>
+<circle cx="0" cy="-12" r="7" fill="#FFFFFF"/>
+</g>
+</svg>

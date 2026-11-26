@@ -1,0 +1,19 @@
+{
+  "name": "servicoconecta-functions",
+  "description": "Cloud Functions - ServiçoConecta",
+  "scripts": {
+    "test": "node --test orderPolicy.test.js ai/tia.test.js platform/tools.test.js payments/adapter.test.js agenda/reminders.test.js",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": { "node": "18" },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "firebase-functions": "^4.8.0",
+    "axios": "^1.6.7"
+  },
+  "private": true
+}

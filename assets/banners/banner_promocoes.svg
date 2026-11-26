@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+<defs><linearGradient id="g_promo" x1="0" y1="0" x2="1200" y2="400" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#FF5A36"/><stop offset="1" stop-color="#E1431F"/></linearGradient></defs>
+<rect width="1200" height="400" rx="28" fill="url(#g_promo)"/><path opacity="0.1" fill="#FFFFFF" d="M970 80
+      C970 -35.5 1025.0 -52.0 1080 -30
+      C1140.5 -46.499999999999986 1190 25.0 1190 80
+      C1190 151.5 1146.0 195.5 1080 195.5
+      C1019.5 195.5 970 146.0 970 80 Z"/><path opacity="0.08" fill="#FFFFFF" d="M930 340
+      C930 266.5 965.0 256.0 1000 270
+      C1038.5 259.5 1070 305.0 1070 340
+      C1070 385.5 1042.0 413.5 1000 413.5
+      C961.5 413.5 930 382.0 930 340 Z"/><rect x="64" y="64" width="101.0" height="40" rx="20" fill="#FFFFFF"/>
+<text x="114.5" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#1652F0">OFERTA</text><text x="64" y="170" font-family="Sora, sans-serif" font-weight="800" font-size="46" fill="#FFFFFF">Até 30% OFF</text>
+<text x="64" y="215" font-family="Inter, sans-serif" font-weight="500" font-size="22" fill="#FFFFFF" opacity="0.9">Nos melhores profissionais da sua região</text><polygon points="950.0,108.0 955.4,122.5 970.9,123.2 958.8,132.9 962.9,147.8 950.0,139.2 937.1,147.8 941.2,132.9 929.1,123.2 944.6,122.5" fill="#FFFFFF"/><polygon points="1020.0,194.0 1023.9,204.6 1035.2,205.1 1026.4,212.1 1029.4,222.9 1020.0,216.7 1010.6,222.9 1013.6,212.1 1004.8,205.1 1016.1,204.6" fill="#FFFFFF"/><polygon points="890.0,236.0 893.5,245.2 903.3,245.7 895.6,251.8 898.2,261.3 890.0,255.9 881.8,261.3 884.4,251.8 876.7,245.7 886.5,245.2" fill="#FFFFFF"/>
+</svg>

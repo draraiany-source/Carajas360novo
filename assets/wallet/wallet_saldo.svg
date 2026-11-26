@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
+<rect width="320" height="320" rx="28" fill="#EAF0FF"/><path opacity="0.1" fill="#1652F0" d="M100 120
+      C100 57.0 130.0 48.0 160 60
+      C193.0 51.0 220 90.0 220 120
+      C220 159.0 196.0 183.0 160 183.0
+      C127.0 183.0 100 156.0 100 120 Z"/><rect x="80" y="110" width="160" height="100" rx="16" fill="#1652F0"/><rect x="80" y="140" width="160" height="20" fill="#0E3ECB"/><circle cx="215" cy="185" r="16" fill="#FF5A36"/><text x="107" y="192" font-family="Sora, sans-serif" font-weight="700" font-size="18" fill="#FFFFFF">R$</text>
+</svg>

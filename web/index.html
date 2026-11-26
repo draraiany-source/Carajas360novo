@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Substitua pelo OAuth 2.0 Web Client ID do Google Cloud / Firebase -->
+  <meta name="google-signin-client_id" content="COLE_SEU_GOOGLE_WEB_CLIENT_ID.apps.googleusercontent.com">
+  <title>Carajás 360</title>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="apple-touch-icon" href="icons/Icon-192.png"/>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body { background: linear-gradient(135deg,#0D47A1,#0A3880,#2E7D32); margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; font-family:sans-serif; }
+    #loading { text-align:center; color:#fff; }
+    .spinner { width:36px; height:36px; border:3px solid rgba(255,255,255,0.2); border-top-color:#fff; border-radius:50%; animation:spin 0.8s linear infinite; margin:20px auto; }
+    @keyframes spin { to { transform:rotate(360deg) } }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <img src="favicon.png" width="88" height="88" alt="ServiçoConecta" style="border-radius:22px"/>
+    <h1>Carajás 360</h1>
+    <div class="spinner"></div>
+  </div>
+  <script>
+    // Evita TypeError do plugin flutter_tts quando speechSynthesis não existe
+    // (navegador restrito, webview ou ambiente de teste).
+    (function () {
+      if (!window.speechSynthesis) {
+        window.speechSynthesis = {
+          speak: function () {},
+          cancel: function () {},
+          pause: function () {},
+          resume: function () {},
+          getVoices: function () { return []; },
+          addEventListener: function () {},
+          removeEventListener: function () {},
+          pending: false,
+          speaking: false,
+          paused: false
+        };
+      }
+      if (typeof window.SpeechSynthesisUtterance !== 'function') {
+        window.SpeechSynthesisUtterance = function (text) {
+          this.text = text || '';
+          this.lang = 'pt-BR';
+          this.volume = 1;
+        };
+      }
+    })();
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

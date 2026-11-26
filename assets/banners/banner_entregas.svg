@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+<defs><linearGradient id="g_entregas" x1="0" y1="0" x2="1200" y2="400" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#E1431F"/><stop offset="1" stop-color="#B23315"/></linearGradient></defs>
+<rect width="1200" height="400" rx="28" fill="url(#g_entregas)"/><path opacity="0.09" fill="#FFFFFF" d="M900 300
+      C900 195.0 950.0 180.0 1000 200
+      C1055.0 185.0 1100 250.0 1100 300
+      C1100 365.0 1060.0 405.0 1000 405.0
+      C945.0 405.0 900 360.0 900 300 Z"/><rect x="64" y="64" width="126.0" height="40" rx="20" fill="#FFFFFF"/>
+<text x="127.0" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#E1431F">ENTREGAS</text><text x="64" y="170" font-family="Sora, sans-serif" font-weight="800" font-size="46" fill="#FFFFFF">Entrega rápida, do seu jeito</text>
+<text x="64" y="215" font-family="Inter, sans-serif" font-weight="500" font-size="22" fill="#FFFFFF" opacity="0.9">Motoboy e frete expresso na palma da mão</text><circle cx="960" cy="255" r="16" fill="none" stroke="#FFFFFF" stroke-width="5"/><circle cx="1060" cy="255" r="16" fill="none" stroke="#FFFFFF" stroke-width="5"/><path d="M960 255l0-45h60l24 24h16v21" fill="none" stroke="#FFFFFF" stroke-width="5"/>
+</svg>

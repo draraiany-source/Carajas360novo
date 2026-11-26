@@ -1,0 +1,125 @@
+# Carajás 360 — arquivos que não entram no Git.
+
+# ── Flutter / Dart ──────────────────────────────────────────
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+.flutter-plugins-dependencies
+**/doc/api/
+.metadata.bak
+
+# ── Android ─────────────────────────────────────────────────
+android/.gradle/
+android/captures/
+android/local.properties
+android/**/build/
+android/.cxx/
+*.apk
+*.aab
+*.ap_
+*.hprof
+output-metadata.json
+
+# Assinatura de release (nunca versionar)
+android/key.properties
+*.jks
+*.keystore
+
+# ── iOS / macOS / Xcode ─────────────────────────────────────
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/.last_build_id
+ios/ServiceDefinitions.json
+ios/Runner.xcworkspace/xcuserdata/
+ios/**/xcuserdata/
+**/DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# ── Firebase / emuladores ───────────────────────────────────
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+firestore-debug.log
+ui-debug.log
+pubsub-debug.log
+database-debug.log
+functions/.runtimeconfig.json
+.runtimeconfig.json
+
+# ── Node / Cloud Functions ──────────────────────────────────
+node_modules/
+functions/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+.pnpm-store/
+
+# ── Segredos e credenciais ──────────────────────────────────
+.env
+.env.*
+!.env.example
+!functions/.env.example
+*.pem
+*.p12
+*.pfx
+*.key
+**/secrets/
+**/service-account*.json
+**/ServiceAccount*.json
+serviceAccount*.json
+*credentials*.json
+*serviceAccount*.json
+google-services-real.json
+GoogleService-Info-real.plist
+
+# Os arquivos android/app/google-services.json,
+# ios/Runner/GoogleService-Info.plist e lib/firebase_options.dart
+# deste repositório são PLACEHOLDERS (projectId servicoconecta,
+# chaves COLE_SUA_). Podem permanecer no Git até o
+# `flutterfire configure`. Quando forem substituídos por
+# configuração real, não commite chaves de produção se a
+# política do time passar a tratá-las como segredo.
+
+# ── IDEs ────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.history/
+*.swp
+*.swo
+*~
+
+# ── Sistema operacional ─────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+desktop.ini
+$RECYCLE.BIN/
+
+# ── Logs e lixo local ───────────────────────────────────────
+*.log
+*.tmp
+*.temp
+*.bak
+.cache/

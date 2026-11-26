@@ -1,0 +1,35 @@
+# Regras de análise estática do ServiçoConecta.
+# Baseado no conjunto recomendado do Flutter (flutter_lints, já no pubspec).
+# Configurado de forma equilibrada: pega problemas reais sem gerar centenas
+# de avisos de estilo (const/final) que exigiriam uma passada manual com o
+# SDK. O time pode endurecer as regras conforme desejar.
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    # withOpacity está deprecado no Flutter 3.27+ mas é mantido de propósito
+    # por compatibilidade com versões anteriores — não deve travar o build.
+    deprecated_member_use: warning
+    deprecated_member_use_from_same_package: warning
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "build/**"
+    - "node_modules/**"
+    - "functions/node_modules/**"
+    - android/**
+    - ios/**
+    - web/**
+
+linter:
+  rules:
+    # Regras de segurança/correção (alto valor, baixo ruído):
+    avoid_print: true
+    use_build_context_synchronously: true
+    avoid_empty_else: true
+    cancel_subscriptions: true
+    close_sinks: true
+    # Regras de estilo ruidosas desativadas (exigiriam passada manual com SDK):
+    prefer_const_constructors: false
+    prefer_const_literals_to_create_immutables: false
+    prefer_final_locals: false

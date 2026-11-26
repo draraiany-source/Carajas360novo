@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+<defs><linearGradient id="g_cupom" x1="0" y1="0" x2="1200" y2="400" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#FFB020"/><stop offset="1" stop-color="#C9860A"/></linearGradient></defs>
+<rect width="1200" height="400" rx="28" fill="url(#g_cupom)"/><path opacity="0.1" fill="#FFFFFF" d="M900 300
+      C900 195.0 950.0 180.0 1000 200
+      C1055.0 185.0 1100 250.0 1100 300
+      C1100 365.0 1060.0 405.0 1000 405.0
+      C945.0 405.0 900 360.0 900 300 Z"/><rect x="64" y="64" width="88.5" height="40" rx="20" fill="#12141C"/>
+<text x="108.25" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#FFFFFF">CUPOM</text><text x="64" y="170" font-family="Sora, sans-serif" font-weight="800" font-size="46" fill="#FFFFFF">Use e ganhe desconto</text>
+<text x="64" y="215" font-family="Inter, sans-serif" font-weight="500" font-size="22" fill="#FFFFFF" opacity="0.9">Cupons exclusivos para novos pedidos</text><rect x="945" y="170" width="130" height="80" rx="10" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-dasharray="6 6"/><text x="1010" y="220" text-anchor="middle" font-family="Sora, sans-serif" font-weight="800" font-size="26" fill="#FFFFFF">%</text>
+</svg>

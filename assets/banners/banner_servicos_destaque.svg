@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+<defs><linearGradient id="g_destaque" x1="0" y1="0" x2="1200" y2="400" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#1652F0"/><stop offset="1" stop-color="#0E3ECB"/></linearGradient></defs>
+<rect width="1200" height="400" rx="28" fill="url(#g_destaque)"/><path opacity="0.08" fill="#FFFFFF" d="M930 300
+      C930 174.0 990.0 156.0 1050 180
+      C1116.0 162.0 1170 240.0 1170 300
+      C1170 378.0 1122.0 426.0 1050 426.0
+      C984.0 426.0 930 372.0 930 300 Z"/><rect x="64" y="64" width="163.5" height="40" rx="20" fill="#FFFFFF"/>
+<text x="145.75" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#1652F0">EM DESTAQUE</text><text x="64" y="170" font-family="Sora, sans-serif" font-weight="800" font-size="46" fill="#FFFFFF">Profissionais em destaque</text>
+<text x="64" y="215" font-family="Inter, sans-serif" font-weight="500" font-size="22" fill="#FFFFFF" opacity="0.9">Avaliados 5 estrelas pela comunidade</text><polygon points="1000.0,130.0 1004.9,143.2 1019.0,143.8 1008.0,152.6 1011.8,166.2 1000.0,158.4 988.2,166.2 992.0,152.6 981.0,143.8 995.1,143.2" fill="#FFB020"/><polygon points="1040.0,176.0 1043.5,185.2 1053.3,185.7 1045.6,191.8 1048.2,201.3 1040.0,195.9 1031.8,201.3 1034.4,191.8 1026.7,185.7 1036.5,185.2" fill="#FFB020"/><polygon points="960.0,188.0 963.0,195.9 971.4,196.3 964.8,201.6 967.1,209.7 960.0,205.0 952.9,209.7 955.2,201.6 948.6,196.3 957.0,195.9" fill="#FFFFFF"/>
+</svg>
