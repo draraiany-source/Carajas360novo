@@ -3,7 +3,7 @@
 /// A arte já é um card com borda dourada. O ícone fica dentro de uma faixa
 /// por breakpoint e nunca estica até o tamanho da célula.
 abstract final class HomeLayout {
-  static const tileGap = 10.0;
+  static const tileGap = 8.0;
   static const heroStackBreakpoint = 720.0;
 
   static bool stackedHeroButtons(double width) => width < heroStackBreakpoint;
@@ -13,7 +13,8 @@ abstract final class HomeLayout {
 
   static double heroHeight(double width) => width < heroStackBreakpoint ? 196 : 176;
 
-  static double tiaHeroHeight(double width) => width < heroStackBreakpoint ? 72 : 112;
+  /// A arte da Tia em uso tem no máximo 250 px. A altura fica abaixo disso no 2x/3x.
+  static double tiaHeroHeight(double width) => width < heroStackBreakpoint ? 64 : 96;
 
   /// Desktop 5 ou 6, tablet 4, celular 3 e 2 abaixo de 340 px.
   static int columnsFor(double width) {
@@ -34,9 +35,9 @@ abstract final class HomeLayout {
     final tablet = width >= 600 && width < 1024;
     switch (tier) {
       case IconTier.category:
-        if (desktop) return (88, 104);
-        if (tablet) return (72, 88);
-        return (64, 80);
+        if (desktop) return (88, 100);
+        if (tablet) return (76, 88);
+        return (64, 76);
       case IconTier.subcategory:
         if (desktop) return (64, 80);
         if (tablet) return (56, 72);

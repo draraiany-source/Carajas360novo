@@ -16,7 +16,7 @@ class TiaCatalogCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final profession = match.profession;
     final category = match.category;
-    final asset = profession?.asset512 ?? category?.asset512;
+    final asset = profession?.asset256 ?? category?.asset256;
     final pending = asset == null;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),

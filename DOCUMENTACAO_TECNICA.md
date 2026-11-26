@@ -56,7 +56,7 @@ A rota antiga `/ai` aponta direto para `TiaCentralScreen`. O arquivo `lib/featur
 
 Explorar a home, a busca e o perfil público não exige conta. Orçamento, chat que grava e favorito pedem conta. Isso foi ligado nos pontos de entrada principais. Não houve varredura manual de cada botão em aparelho físico.
 
-A grade de categorias usa `HomeLayout.columnsFor`: 6 colunas quando a área útil passa de 1180 px, 5 no desktop mais estreito, 4 no tablet, 3 no celular e 2 abaixo de 340 px de viewport. O ícone de categoria fica entre 88 e 104 px no desktop, 72 e 88 no tablet e 64 e 80 no celular. Subcategorias e listas usam faixas menores. A arte não estica até o card e não ganha uma segunda borda dourada. Abaixo de 720 px o banner empilha os botões e o retrato da Tia fica menor para caber no hero. O toque abre a subcategoria e, em seguida, a lista de profissionais filtrada pelo id da profissão já usado no Firestore.
+A grade de categorias usa `HomeLayout.columnsFor`: 6 colunas quando a área útil passa de 1180 px, 5 no desktop mais estreito, 4 no tablet, 3 no celular e 2 abaixo de 340 px de viewport. O ícone de categoria fica entre 88 e 100 px no desktop, 76 e 88 no tablet e 64 e 76 no celular. Subcategorias e listas usam faixas menores. A arte não estica até o card e não ganha uma segunda borda dourada. Abaixo de 720 px o banner empilha os botões e o retrato da Tia fica menor para caber no hero. O toque abre a subcategoria e, em seguida, a lista de profissionais filtrada pelo id da profissão já usado no Firestore.
 
 ## 3. Identidade e assets
 

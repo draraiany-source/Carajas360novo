@@ -59,12 +59,21 @@ class CategoryBoardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
+        primary: false,
         backgroundColor: AppColors.white,
         foregroundColor: AppColors.textDark,
+        iconTheme: const IconThemeData(color: AppColors.textDark),
         leading: BackButton(onPressed: () => c360Pop(context)),
-        title: Text(mode == CategoryBoardMode.extras
-            ? 'Mais Categorias'
-            : 'Todas as categorias'),
+        title: Text(
+          mode == CategoryBoardMode.extras
+              ? 'Mais Categorias'
+              : 'Todas as categorias',
+          style: const TextStyle(
+            color: AppColors.textDark,
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
@@ -94,10 +103,19 @@ class SubcategoryScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
+        primary: false,
         backgroundColor: AppColors.white,
         foregroundColor: AppColors.textDark,
+        iconTheme: const IconThemeData(color: AppColors.textDark),
         leading: BackButton(key: const Key('voltar'), onPressed: () => c360Pop(context)),
-        title: Text(category?.name ?? 'Subcategorias'),
+        title: Text(
+          category?.name ?? 'Subcategorias',
+          style: const TextStyle(
+            color: AppColors.textDark,
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
       ),
       body: professions.isEmpty
           ? const Center(

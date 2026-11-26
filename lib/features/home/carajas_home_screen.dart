@@ -427,8 +427,8 @@ class _Hero extends StatelessWidget {
           ),
           if (HomeLayout.showHeroPortrait(constraints.maxWidth))
             Positioned(
-              right: 8,
-              top: 8,
+              right: 6,
+              top: 6,
               child: TiaPortrait(pose: 'apresentando', height: portrait),
             ),
           Positioned(

@@ -66,9 +66,9 @@ class _OfficialIconState extends State<OfficialIcon> {
               children: [
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 140),
-                  width: icon + 12,
-                  height: icon + 12,
-                  padding: const EdgeInsets.all(6),
+                  width: icon + 4,
+                  height: icon + 4,
+                  padding: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -92,7 +92,7 @@ class _OfficialIconState extends State<OfficialIcon> {
                 if (showCaption) ...[
                   const SizedBox(height: 4),
                   SizedBox(
-                    width: icon + 12,
+                    width: icon + 4,
                     child: Text(
                       widget.label,
                       textAlign: TextAlign.center,
@@ -123,17 +123,32 @@ class _ArtTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cache = (logical * MediaQuery.devicePixelRatioOf(context))
-        .round()
-        .clamp(48, 512);
-    return Image(
-      image: ResizeImage(AssetImage(path), width: cache),
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    final cache = (logical * dpr).round().clamp(1, 512);
+    return SizedBox(
       width: logical,
       height: logical,
-      fit: BoxFit.contain,
-      gaplessPlayback: true,
-      filterQuality: FilterQuality.medium,
-      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+      child: Stack(fit: StackFit.expand, children: [
+        const ColoredBox(color: Color(0xFFF4F7F5)),
+        Image(
+          image: ResizeImage(AssetImage(path), width: cache),
+          width: logical,
+          height: logical,
+          fit: BoxFit.contain,
+          gaplessPlayback: true,
+          filterQuality: FilterQuality.high,
+          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+            if (wasSynchronouslyLoaded) return child;
+            return AnimatedOpacity(
+              opacity: frame == null ? 0 : 1,
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOut,
+              child: child,
+            );
+          },
+          errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+        ),
+      ]),
     );
   }
 }
@@ -182,7 +197,7 @@ class OfficialIconData {
   }
 }
 
-/// Grade dos pôsteres. Em grade usa o WebP de 256 px.
+/// Grade dos pôsteres. Listas de até 48 px usam o WebP de 256; o resto, o de 512.
 class OfficialIconGrid extends StatelessWidget {
   final List<OfficialIconData> items;
   final ValueChanged<OfficialIconData> onTap;
@@ -209,14 +224,15 @@ class OfficialIconGrid extends StatelessWidget {
       // No celular a margem da página não pode derrubar 360 px para 2 colunas.
       final basis = screen < 600 ? screen : width;
       final icon = HomeLayout.iconSize(tier, screen);
-      final card = icon + 12;
+      final card = icon + 4;
       var columns = HomeLayout.columnsFor(basis);
       while (columns > 1 &&
           (width - HomeLayout.tileGap * (columns - 1)) / columns < card - 1) {
         columns--;
       }
       final needsCaption = items.any((item) => item.asset256 == null && item.asset512 == null);
-      final tile = icon + 16 + (needsCaption ? 38 : 0);
+      final tile = card + (needsCaption ? 38 : 0);
+      final gridWidth = columns * card + HomeLayout.tileGap * (columns - 1);
       final rows = (items.length / columns).ceil().clamp(1, 99);
       final full = rows * tile + HomeLayout.tileGap * (rows - 1);
       final cap = maxVisibleRows == null
@@ -235,11 +251,14 @@ class OfficialIconGrid extends StatelessWidget {
         ),
         itemBuilder: (_, i) {
           final item = items[i];
+          final useListFile = tier == IconTier.list && icon <= 48;
           return Center(
             child: OfficialIcon(
               key: Key('$keyPrefix${item.id}'),
               label: item.label,
-              assetPath: item.asset256 ?? item.asset512,
+              assetPath: useListFile
+                  ? (item.asset256 ?? item.asset512)
+                  : (item.asset512 ?? item.asset256),
               pendingArt: item.pendingArt,
               selected: selected.contains(item.id),
               tier: tier,
@@ -248,10 +267,12 @@ class OfficialIconGrid extends StatelessWidget {
           );
         },
       );
-      if (cap + 0.5 >= full) return grid;
-      return SizedBox(
-        height: cap,
-        child: SingleChildScrollView(child: grid),
+      final shown = cap + 0.5 >= full
+          ? grid
+          : SizedBox(height: cap, child: SingleChildScrollView(child: grid));
+      return Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(width: gridWidth.clamp(0, width), child: shown),
       );
     });
   }
@@ -260,9 +281,10 @@ class OfficialIconGrid extends StatelessWidget {
 /// Pré-carrega só os ícones da home (versão de grade).
 void precacheHomeIcons(BuildContext context) {
   final dpr = MediaQuery.devicePixelRatioOf(context);
-  final cache = (104 * dpr).round().clamp(64, 320);
+  final logical = HomeLayout.iconSize(IconTier.category, MediaQuery.sizeOf(context).width);
+  final cache = (logical * dpr).round().clamp(1, 512);
   for (final category in ServiceCatalog.homeCategories) {
-    final path = category.asset256;
+    final path = category.asset512 ?? category.asset256;
     if (path == null) continue;
     precacheImage(ResizeImage(AssetImage(path), width: cache), context);
   }

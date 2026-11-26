@@ -11,13 +11,13 @@ void main() {
     expect(HomeLayout.columnsFor(1100), 5);
     expect(HomeLayout.columnsFor(1400), 6);
     expect(HomeLayout.iconInRange(IconTier.category, 1400, HomeLayout.iconSize(IconTier.category, 1400)), isTrue);
-    expect(HomeLayout.iconSize(IconTier.category, 1400), inInclusiveRange(88, 104));
-    expect(HomeLayout.iconSize(IconTier.category, 768), inInclusiveRange(72, 88));
-    expect(HomeLayout.iconSize(IconTier.category, 390), inInclusiveRange(64, 80));
+    expect(HomeLayout.iconSize(IconTier.category, 1400), inInclusiveRange(88, 100));
+    expect(HomeLayout.iconSize(IconTier.category, 768), inInclusiveRange(76, 88));
+    expect(HomeLayout.iconSize(IconTier.category, 390), inInclusiveRange(64, 76));
     expect(HomeLayout.iconSize(IconTier.subcategory, 1400), inInclusiveRange(64, 80));
     expect(HomeLayout.iconSize(IconTier.list, 390), inInclusiveRange(36, 44));
     expect(HomeLayout.heroHeight(390), lessThanOrEqualTo(200));
-    expect(HomeLayout.tiaHeroHeight(390), lessThanOrEqualTo(72));
+    expect(HomeLayout.tiaHeroHeight(390), lessThanOrEqualTo(64));
   });
 
   test('banner estreito empilha os botões e reduz o retrato', () {

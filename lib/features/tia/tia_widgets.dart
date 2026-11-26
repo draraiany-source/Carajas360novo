@@ -74,10 +74,15 @@ class _TiaPortraitState extends State<TiaPortrait>
   Widget build(BuildContext context) {
     final image = widget.circle
         ? Image.asset('assets/tia_carajas/avatar.webp',
-            height: widget.height, width: widget.height, fit: BoxFit.cover,
+            height: widget.height,
+            width: widget.height,
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.medium,
             errorBuilder: (_, __, ___) => _fallback())
         : Image.asset(tiaAsset(widget.pose),
-            height: widget.height, fit: BoxFit.contain,
+            height: widget.height,
+            fit: BoxFit.contain,
+            filterQuality: FilterQuality.medium,
             errorBuilder: (_, __, ___) => _fallback());
     final child = widget.circle
         ? ClipOval(child: image)
