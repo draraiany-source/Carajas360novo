@@ -3,7 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../core/catalog/service_catalog.dart';
 import '../../core/constants/app_constants.dart';
+import '../../shared/widgets/official_icon.dart';
 import '../../core/theme/app_colors.dart';
 import '../../shared/models/models.dart';
 import '../../shared/services/firebase_service.dart';
@@ -212,7 +214,24 @@ class _TiaRequestScreenState extends State<TiaRequestScreen> {
   }
 
   Widget _describe() {
+    final profession = ServiceCatalog.professionById(_category ?? '');
+    final category = ServiceCatalog.categoryById(_category ?? '');
+    final asset = profession?.asset512 ?? category?.asset512;
+    final label = profession?.name ?? category?.name;
     return Column(children: [
+      if (label != null)
+        Align(
+          alignment: Alignment.centerLeft,
+          child: SizedBox(
+            width: 160,
+            height: 160,
+            child: OfficialIcon(
+              label: label,
+              assetPath: asset,
+              pendingArt: asset == null,
+            ),
+          ),
+        ),
       DropdownButtonFormField<String>(
         initialValue: _category,
         decoration: const InputDecoration(labelText: 'Categoria do serviço'),

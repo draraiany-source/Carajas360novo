@@ -5,6 +5,8 @@ import '../../core/constants/app_constants.dart';
 import '../../core/theme/app_colors.dart';
 import '../../shared/widgets/c360_nav.dart';
 import '../home/provider_profile_screen.dart';
+import '../../core/catalog/service_catalog.dart';
+import 'tia_catalog_card.dart';
 import 'tia_models.dart';
 import 'tia_request_screen.dart';
 import 'tia_schedule_screen.dart';
@@ -18,12 +20,14 @@ class _Msg {
   final bool alert;
   final List<TiaProviderRef> providers;
   final List<TiaProposedAction> actions;
+  final CatalogMatch? match;
   const _Msg({
     required this.text,
     this.mine = false,
     this.alert = false,
     this.providers = const [],
     this.actions = const [],
+    this.match,
   });
 }
 
@@ -107,6 +111,7 @@ class _TiaCentralScreenState extends State<TiaCentralScreen> {
       audience: widget.audience,
     );
     if (!mounted) return;
+    final identified = _matchFromReply(text, reply);
     setState(() {
       _busy = false;
       _conversationId = reply.conversationId ?? _conversationId;
@@ -115,6 +120,7 @@ class _TiaCentralScreenState extends State<TiaCentralScreen> {
         _msgs.add(_Msg(
           text: reply.reason ?? 'IA indisponível.',
           alert: true,
+          match: identified,
         ));
       } else {
         _pose = reply.providers.isNotEmpty ? 'apresentando' : 'orientando';
@@ -122,6 +128,7 @@ class _TiaCentralScreenState extends State<TiaCentralScreen> {
           text: reply.text!,
           providers: reply.providers,
           actions: reply.actions,
+          match: identified,
         ));
         if (reply.disclaimer != null) {
           _msgs.add(_Msg(text: reply.disclaimer!, alert: true));
@@ -133,6 +140,36 @@ class _TiaCentralScreenState extends State<TiaCentralScreen> {
       await _voice.speak(reply.text!);
       if (mounted) setState(() {});
     }
+  }
+
+  CatalogMatch? _matchFromReply(String text, TiaReply reply) {
+    for (final action in reply.actions) {
+      final raw = action.payload['category'];
+      if (raw is String && raw.isNotEmpty) {
+        final profession = ServiceCatalog.professionById(raw);
+        if (profession != null) {
+          return CatalogMatch(
+            kind: 'profissao',
+            id: profession.id,
+            name: profession.name,
+            categoryId: profession.categoryId,
+            profession: profession,
+            category: ServiceCatalog.categoryById(profession.categoryId),
+          );
+        }
+        final category = ServiceCatalog.categoryById(raw);
+        if (category != null) {
+          return CatalogMatch(
+            kind: 'categoria',
+            id: category.id,
+            name: category.name,
+            categoryId: category.id,
+            category: category,
+          );
+        }
+      }
+    }
+    return ServiceCatalog.matchText(text);
   }
 
   void _jump() {
@@ -286,6 +323,7 @@ class _TiaCentralScreenState extends State<TiaCentralScreen> {
                 ),
               for (final action in msg.actions)
                 TiaActionCard(action: action, onConfirm: () => _confirm(action)),
+              if (msg.match != null) TiaCatalogCard(match: msg.match!),
             ],
             if (_busy)
               const Align(

@@ -1,22 +1,34 @@
-/// Medidas da home. Os tiles de categoria não podem crescer com a largura:
-/// em 1280×800 a área útil (janela menos a sidebar de 248) fica perto de
-/// 1032 px e, com 2 colunas, os cards passavam de 400 px de altura.
+/// Medidas da home e da grade de ícones oficiais.
+///
+/// Desktop: 5 colunas quando o tile fica com pelo menos 140 px.
+/// Abaixo disso, 3 colunas se a largura permitir e 2 no celular estreito.
 abstract final class HomeLayout {
-  static const tileMaxCrossAxisExtent = 168.0;
-  static const tileMainAxisExtent = 112.0;
+  static const tileGap = 12.0;
+  static const minDesktopTile = 140.0;
   static const heroStackBreakpoint = 720.0;
 
   static bool stackedHeroButtons(double width) => width < heroStackBreakpoint;
 
   static bool showHeroPortrait(double width) => width >= heroStackBreakpoint;
 
-  /// Largura máxima de um tile. Nunca ultrapassa [tileMaxCrossAxisExtent].
-  static double estimatedTileWidth(double contentWidth) {
-    if (contentWidth <= 0) return tileMaxCrossAxisExtent;
-    final columns =
-        (contentWidth / tileMaxCrossAxisExtent).floor().clamp(2, 8);
-    final spacing = 10.0 * (columns - 1);
-    final width = (contentWidth - spacing) / columns;
-    return width > tileMaxCrossAxisExtent ? tileMaxCrossAxisExtent : width;
+  static int columnsFor(double width) {
+    if (width <= 0) return 2;
+    if (_tile(width, 5) >= minDesktopTile) return 5;
+    if (width >= 520) return 3;
+    return 2;
+  }
+
+  static double tileExtent(double width) {
+    final columns = columnsFor(width);
+    return _tile(width, columns);
+  }
+
+  /// Largura de um tile na área útil informada.
+  static double estimatedTileWidth(double contentWidth) =>
+      tileExtent(contentWidth);
+
+  static double _tile(double width, int columns) {
+    final spacing = tileGap * (columns - 1);
+    return (width - spacing) / columns;
   }
 }

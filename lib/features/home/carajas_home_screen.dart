@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../core/catalog/service_catalog.dart';
 import '../../core/constants/runtime_config.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/constants/app_constants.dart';
+import '../catalog/category_browse.dart';
+import '../../shared/widgets/official_icon.dart';
 import '../../core/utils/demo_data.dart';
 import 'home_layout.dart';
 import '../../core/modules/platform_modules.dart';
@@ -13,7 +16,6 @@ import '../profile/plans_screen.dart';
 import '../provider/provider_home_screen.dart';
 import '../tia/tia_screen.dart';
 import '../tia/tia_widgets.dart';
-import 'home_screen.dart';
 import 'provider_profile_screen.dart';
 
 /// Home da plataforma Carajás 360 (mockups Início v1 e v2).
@@ -26,6 +28,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _banner = PageController();
   int _bannerPage = 0;
+  bool _precached = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_precached) return;
+    _precached = true;
+    precacheHomeIcons(context);
+  }
 
   @override
   void dispose() {
@@ -33,21 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void _openCategory(C360Category category) {
-    if (category.route != null) {
-      Navigator.pushNamed(context, category.route!);
-      return;
-    }
-    if (category.categoryId == null) {
-      c360Go(context, C360Dest.explore, Routes.search);
-      return;
-    }
-    c360Open(
-      context,
-      route: Routes.search,
-      arguments: {'category': category.categoryId},
-      page: SearchScreen(initialCategory: category.categoryId),
-    );
+  void _openCategory(CatalogCategory category) {
+    openCatalogCategory(context, category);
   }
 
   void _openProfile(ProviderModel provider) {
@@ -111,6 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 22),
+                  _categoryGrid(),
+                  const SizedBox(height: 22),
                   if (wide)
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,34 +142,32 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _mainColumn(List<ProviderModel> providers,
-      {required bool loading, required bool failed, required bool demo}) {
+  Widget _categoryGrid() {
+    final items = ServiceCatalog.homeCategories;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       C360SectionHeader(
         title: 'Categorias de Serviços',
         action: 'Ver todas',
-        onAction: () => c360Go(context, C360Dest.explore, Routes.search),
-      ),
-      const SizedBox(height: 12),
-      GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: C360Categories.home.length,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: HomeLayout.tileMaxCrossAxisExtent,
-          mainAxisExtent: HomeLayout.tileMainAxisExtent,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemBuilder: (_, i) {
-          final category = C360Categories.home[i];
-          return C360CategoryTile(
-            category: category,
-            onTap: () => _openCategory(category),
-          );
+        onAction: () {
+          final todas = ServiceCatalog.categoryById('ver-todas');
+          if (todas != null) openCatalogCategory(context, todas);
         },
       ),
-      const SizedBox(height: 22),
+      const SizedBox(height: 12),
+      OfficialIconGrid(
+        items: items.map(OfficialIconData.category).toList(),
+        keyPrefix: 'categoria-',
+        onTap: (item) {
+          final category = ServiceCatalog.categoryById(item.id);
+          if (category != null) _openCategory(category);
+        },
+      ),
+    ]);
+  }
+
+  Widget _mainColumn(List<ProviderModel> providers,
+      {required bool loading, required bool failed, required bool demo}) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       C360SectionHeader(
         title: 'Profissionais em Destaque',
         icon: Icons.star_rounded,
@@ -212,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
         )
       else
         SizedBox(
-          height: 248,
+          height: 320,
           child: ValueListenableBuilder<String>(
             valueListenable: RegionController.instance.city,
             builder: (_, city, __) => ListView.separated(
@@ -221,13 +219,27 @@ class _HomeScreenState extends State<HomeScreen> {
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (_, i) {
                 final provider = providers[i];
-                final role = provider.categories.isNotEmpty
-                    ? (Categories.byId(provider.categories.first)?.name ??
-                        provider.categories.first)
-                    : 'Profissional';
+                final profession = provider.categories.isNotEmpty
+                    ? ServiceCatalog.professionById(provider.categories.first)
+                    : null;
+                final role = profession?.name ??
+                    (provider.categories.isNotEmpty
+                        ? provider.categories.first
+                        : 'Profissional');
                 return C360HighlightCard(
                   name: provider.name,
                   role: role,
+                  emblem: profession == null
+                      ? null
+                      : SizedBox(
+                          width: 72,
+                          height: 72,
+                          child: OfficialIcon(
+                            label: profession.name,
+                            assetPath: profession.asset256,
+                            pendingArt: profession.asset == null,
+                          ),
+                        ),
                   rating: provider.rating,
                   reviews: provider.totalReviews,
                   photoUrl: provider.photoUrl,

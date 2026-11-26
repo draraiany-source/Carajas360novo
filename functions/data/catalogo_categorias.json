@@ -1,0 +1,1633 @@
+{
+  "version": 1,
+  "firestore": {
+    "decisao": "Nenhuma coleção nova e nenhum campo novo. providers.categories e orders.category continuam com o id da profissão já usado no Firestore (pedreiro, eletricista, ar_condicionado). Os ids visuais (construcao-e-reforma e os demais pais) existem só neste catálogo. serralheiro é id novo, sem documentos antigos. A coleção categories do Firestore não é a fonte dos ícones."
+  },
+  "decisoes": [
+    "Jardineiro fica em Agro e Rural: a home já usava esse id como representante de Agro e Rural e o grupo legado é Jardim, não Limpeza.",
+    "Técnico em ar-condicionado mantém o id Firestore ar_condicionado (grupo legado Equipamentos) e a arte tecnico-ar-condicionado.webp. O pai é Máquinas e Equipamentos, não Elétrica.",
+    "Personal trainer permanece em Educação e Cursos porque o grupo legado é Educação.",
+    "A grade da home segue o painel: 5 por linha, na ordem Construção, Elétrica, Hidráulica, Limpeza, Beleza, Veículos, Agro, Máquinas, Mais Categorias e Ver Todas. Saúde e Bem-estar e Educação e Cursos têm arte oficial e aparecem em Mais Categorias e em Ver Todas, porque o painel não reserva um dos dez lugares da home para elas.",
+    "Máquinas e Equipamentos e Ver Todas não têm arquivo individual. O tile é verde-esmeralda com borda dourada e o nome em texto. Nada foi recortado do painel nem gerado como ilustração."
+  ],
+  "categories": [
+    {
+      "id": "construcao-e-reforma",
+      "name": "Construção e Reforma",
+      "asset": "construcao-e-reforma",
+      "pendingArt": false,
+      "home": true,
+      "homeOrder": 1,
+      "kind": "servico",
+      "opens": null,
+      "extra": false
+    },
+    {
+      "id": "eletrica",
+      "name": "Elétrica",
+      "asset": "eletrica",
+      "pendingArt": false,
+      "home": true,
+      "homeOrder": 2,
+      "kind": "servico",
+      "opens": null,
+      "extra": false
+    },
+    {
+      "id": "hidraulica",
+      "name": "Hidráulica",
+      "asset": "hidraulica",
+      "pendingArt": false,
+      "home": true,
+      "homeOrder": 3,
+      "kind": "servico",
+      "opens": null,
+      "extra": false
+    },
+    {
+      "id": "limpeza",
+      "name": "Limpeza",
+      "asset": "limpeza",
+      "pendingArt": false,
+      "home": true,
+      "homeOrder": 4,
+      "kind": "servico",
+      "opens": null,
+      "extra": false
+    },
+    {
+      "id": "beleza-e-estetica",
+      "name": "Beleza e Estética",
+      "asset": "beleza-e-estetica",
+      "pendingArt": false,
+      "home": true,
+      "homeOrder": 5,
+      "kind": "servico",
+      "opens": null,
+      "extra": false
+    },
+    {
+      "id": "veiculos-e-oficinas",
+      "name": "Veículos e Oficinas",
+      "asset": "veiculos-e-oficinas",
+      "pendingArt": false,
+      "home": true,
+      "homeOrder": 6,
+      "kind": "servico",
+      "opens": null,
+      "extra": false
+    },
+    {
+      "id": "agro-e-rural",
+      "name": "Agro e Rural",
+      "asset": "agro-e-rural",
+      "pendingArt": false,
+      "home": true,
+      "homeOrder": 7,
+      "kind": "servico",
+      "opens": null,
+      "extra": false
+    },
+    {
+      "id": "maquinas-e-equipamentos",
+      "name": "Máquinas e Equipamentos",
+      "asset": null,
+      "pendingArt": true,
+      "home": true,
+      "homeOrder": 8,
+      "kind": "servico",
+      "opens": null,
+      "extra": false
+    },
+    {
+      "id": "mais-categorias",
+      "name": "Mais Categorias",
+      "asset": "mais-categorias",
+      "pendingArt": false,
+      "home": true,
+      "homeOrder": 9,
+      "kind": "navegacao",
+      "opens": "extras",
+      "extra": false
+    },
+    {
+      "id": "ver-todas",
+      "name": "Ver Todas",
+      "asset": null,
+      "pendingArt": true,
+      "home": true,
+      "homeOrder": 10,
+      "kind": "navegacao",
+      "opens": "todas",
+      "extra": false
+    },
+    {
+      "id": "saude-e-bem-estar",
+      "name": "Saúde e Bem-estar",
+      "asset": "saude-e-bem-estar",
+      "pendingArt": false,
+      "home": false,
+      "homeOrder": 0,
+      "kind": "servico",
+      "opens": null,
+      "extra": true
+    },
+    {
+      "id": "educacao-e-cursos",
+      "name": "Educação e Cursos",
+      "asset": "educacao-e-cursos",
+      "pendingArt": false,
+      "home": false,
+      "homeOrder": 0,
+      "kind": "servico",
+      "opens": null,
+      "extra": true
+    },
+    {
+      "id": "pets",
+      "name": "Pets",
+      "asset": null,
+      "pendingArt": true,
+      "home": false,
+      "homeOrder": 0,
+      "kind": "servico",
+      "opens": null,
+      "extra": true
+    },
+    {
+      "id": "juridico",
+      "name": "Jurídico",
+      "asset": null,
+      "pendingArt": true,
+      "home": false,
+      "homeOrder": 0,
+      "kind": "servico",
+      "opens": null,
+      "extra": true
+    },
+    {
+      "id": "eventos",
+      "name": "Eventos",
+      "asset": null,
+      "pendingArt": true,
+      "home": false,
+      "homeOrder": 0,
+      "kind": "servico",
+      "opens": null,
+      "extra": true
+    },
+    {
+      "id": "tecnologia",
+      "name": "Tecnologia",
+      "asset": null,
+      "pendingArt": true,
+      "home": false,
+      "homeOrder": 0,
+      "kind": "servico",
+      "opens": null,
+      "extra": true
+    },
+    {
+      "id": "transporte",
+      "name": "Transporte e Entregas",
+      "asset": null,
+      "pendingArt": true,
+      "home": false,
+      "homeOrder": 0,
+      "kind": "servico",
+      "opens": null,
+      "extra": true
+    },
+    {
+      "id": "drones",
+      "name": "Drones",
+      "asset": null,
+      "pendingArt": true,
+      "home": false,
+      "homeOrder": 0,
+      "kind": "servico",
+      "opens": null,
+      "extra": true
+    },
+    {
+      "id": "cuidados",
+      "name": "Cuidados",
+      "asset": null,
+      "pendingArt": true,
+      "home": false,
+      "homeOrder": 0,
+      "kind": "servico",
+      "opens": null,
+      "extra": true
+    },
+    {
+      "id": "seguranca-e-portaria",
+      "name": "Segurança e Portaria",
+      "asset": null,
+      "pendingArt": true,
+      "home": false,
+      "homeOrder": 0,
+      "kind": "servico",
+      "opens": null,
+      "extra": true
+    }
+  ],
+  "professions": [
+    {
+      "id": "eletricista",
+      "name": "Eletricista",
+      "emoji": "⚡",
+      "group": "Casa",
+      "color": 4279592384,
+      "categoryId": "eletrica",
+      "asset": "eletricista",
+      "keywords": [
+        "eletricista",
+        "eletrica",
+        "disjuntor",
+        "curto-circuito"
+      ]
+    },
+    {
+      "id": "encanador",
+      "name": "Encanador",
+      "emoji": "🔧",
+      "group": "Casa",
+      "color": 4278351805,
+      "categoryId": "hidraulica",
+      "asset": "encanador",
+      "keywords": [
+        "encanador",
+        "hidraulica",
+        "vazamento",
+        "cano entupido"
+      ]
+    },
+    {
+      "id": "pedreiro",
+      "name": "Pedreiro",
+      "emoji": "🧱",
+      "group": "Casa",
+      "color": 4284301367,
+      "categoryId": "construcao-e-reforma",
+      "asset": "pedreiro",
+      "keywords": [
+        "pedreiro",
+        "alvenaria",
+        "reboco",
+        "assentar tijolo"
+      ]
+    },
+    {
+      "id": "pintor",
+      "name": "Pintor",
+      "emoji": "🎨",
+      "group": "Casa",
+      "color": 4293284096,
+      "categoryId": "construcao-e-reforma",
+      "asset": "pintor",
+      "keywords": [
+        "pintor",
+        "pintura de parede"
+      ]
+    },
+    {
+      "id": "marceneiro",
+      "name": "Marceneiro",
+      "emoji": "🪚",
+      "group": "Casa",
+      "color": 4285353025,
+      "categoryId": "construcao-e-reforma",
+      "asset": "marceneiro",
+      "keywords": [
+        "marceneiro",
+        "marcenaria"
+      ]
+    },
+    {
+      "id": "serralheiro",
+      "name": "Serralheiro",
+      "emoji": "🔩",
+      "group": "Casa",
+      "color": 4284301367,
+      "categoryId": "construcao-e-reforma",
+      "asset": "serralheiro",
+      "keywords": [
+        "serralheiro",
+        "serralheria",
+        "grade de ferro"
+      ]
+    },
+    {
+      "id": "diarista",
+      "name": "Diarista",
+      "emoji": "🧹",
+      "group": "Limpeza",
+      "color": 4281236786,
+      "categoryId": "limpeza",
+      "asset": "diarista",
+      "keywords": [
+        "diarista",
+        "faxina",
+        "limpeza domestica"
+      ]
+    },
+    {
+      "id": "faxineira",
+      "name": "Faxineira",
+      "emoji": "🧽",
+      "group": "Limpeza",
+      "color": 4281896508,
+      "categoryId": "limpeza",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "jardineiro",
+      "name": "Jardineiro",
+      "emoji": "🌿",
+      "group": "Jardim",
+      "color": 4281236786,
+      "categoryId": "agro-e-rural",
+      "asset": "jardineiro",
+      "keywords": [
+        "jardineiro",
+        "jardinagem",
+        "poda de grama"
+      ]
+    },
+    {
+      "id": "medico",
+      "name": "Médico",
+      "emoji": "🩺",
+      "group": "Saúde",
+      "color": 4278214756,
+      "categoryId": "saude-e-bem-estar",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "enfermeiro",
+      "name": "Enfermeiro",
+      "emoji": "💉",
+      "group": "Saúde",
+      "color": 4278223759,
+      "categoryId": "saude-e-bem-estar",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "fisioterapeuta",
+      "name": "Fisioterapeuta",
+      "emoji": "🦴",
+      "group": "Saúde",
+      "color": 4278217052,
+      "categoryId": "saude-e-bem-estar",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "psicologo",
+      "name": "Psicólogo",
+      "emoji": "🧠",
+      "group": "Saúde",
+      "color": 4285143962,
+      "categoryId": "saude-e-bem-estar",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "nutricionista",
+      "name": "Nutricionista",
+      "emoji": "🥗",
+      "group": "Saúde",
+      "color": 4281236786,
+      "categoryId": "saude-e-bem-estar",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "home_care",
+      "name": "Home Care",
+      "emoji": "🏠",
+      "group": "Saúde",
+      "color": 4278223759,
+      "categoryId": "saude-e-bem-estar",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "cabeleireiro",
+      "name": "Cabeleireiro",
+      "emoji": "✂️",
+      "group": "Beleza",
+      "color": 4289533015,
+      "categoryId": "beleza-e-estetica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "manicure",
+      "name": "Manicure/Pedicure",
+      "emoji": "💅",
+      "group": "Beleza",
+      "color": 4293467747,
+      "categoryId": "beleza-e-estetica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "esteticista",
+      "name": "Esteticista",
+      "emoji": "🌸",
+      "group": "Beleza",
+      "color": 4289533015,
+      "categoryId": "beleza-e-estetica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "massagem",
+      "name": "Massagem",
+      "emoji": "💆",
+      "group": "Beleza",
+      "color": 4283045004,
+      "categoryId": "beleza-e-estetica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "professor",
+      "name": "Professor Particular",
+      "emoji": "📚",
+      "group": "Educação",
+      "color": 4279903102,
+      "categoryId": "educacao-e-cursos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "ingles",
+      "name": "Inglês",
+      "emoji": "🇬🇧",
+      "group": "Educação",
+      "color": 4279592384,
+      "categoryId": "educacao-e-cursos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "personal_trainer",
+      "name": "Personal Trainer",
+      "emoji": "🏋️",
+      "group": "Educação",
+      "color": 4279983648,
+      "categoryId": "educacao-e-cursos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "informatica",
+      "name": "Informática",
+      "emoji": "💻",
+      "group": "Tech",
+      "color": 4282722208,
+      "categoryId": "tecnologia",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "tecnico_celular",
+      "name": "Técnico Celular",
+      "emoji": "📱",
+      "group": "Tech",
+      "color": 4279592384,
+      "categoryId": "tecnologia",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "desenvolvedor",
+      "name": "Desenvolvedor",
+      "emoji": "👨‍💻",
+      "group": "Tech",
+      "color": 4281408402,
+      "categoryId": "tecnologia",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "mecanico",
+      "name": "Mecânico",
+      "emoji": "🔧",
+      "group": "Veículos",
+      "color": 4281812815,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": "mecanico",
+      "keywords": [
+        "mecanico",
+        "oficina mecanica",
+        "revisao do carro"
+      ]
+    },
+    {
+      "id": "motorista",
+      "name": "Motorista Particular",
+      "emoji": "🧑‍✈️",
+      "group": "Veículos",
+      "color": 4279060385,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "veterinario",
+      "name": "Veterinário",
+      "emoji": "🐾",
+      "group": "Pets",
+      "color": 4281236786,
+      "categoryId": "pets",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "banho_tosa",
+      "name": "Banho e Tosa",
+      "emoji": "🛁",
+      "group": "Pets",
+      "color": 4278217052,
+      "categoryId": "pets",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "advogado",
+      "name": "Advogado",
+      "emoji": "⚖️",
+      "group": "Jurídico",
+      "color": 4279903102,
+      "categoryId": "juridico",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "contador",
+      "name": "Contador",
+      "emoji": "📊",
+      "group": "Jurídico",
+      "color": 4279060385,
+      "categoryId": "juridico",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "fotografo",
+      "name": "Fotógrafo",
+      "emoji": "📷",
+      "group": "Eventos",
+      "color": 4283045004,
+      "categoryId": "eventos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "dj",
+      "name": "DJ",
+      "emoji": "🎧",
+      "group": "Eventos",
+      "color": 4279903102,
+      "categoryId": "eventos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "mudanca",
+      "name": "Mudança",
+      "emoji": "📦",
+      "group": "Transporte",
+      "color": 4293284096,
+      "categoryId": "transporte",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "ar_condicionado",
+      "name": "Técnico em Ar-Condicionado",
+      "emoji": "❄️",
+      "group": "Equipamentos",
+      "color": 4278356177,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": "tecnico-ar-condicionado",
+      "keywords": [
+        "ar condicionado",
+        "ar-condicionado",
+        "arcondicionado",
+        "tecnico em ar condicionado",
+        "consertar ar"
+      ]
+    },
+    {
+      "id": "agronomo",
+      "name": "Agrônomo",
+      "emoji": "🌾",
+      "group": "Agro",
+      "color": 4281236786,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "baba",
+      "name": "Babá",
+      "emoji": "👶",
+      "group": "Cuidados",
+      "color": 4293467747,
+      "categoryId": "cuidados",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "entregador_moto",
+      "name": "Motoboy",
+      "emoji": "🛵",
+      "group": "Delivery",
+      "color": 4293284096,
+      "categoryId": "transporte",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "tratorista",
+      "name": "Tratorista",
+      "emoji": "🚜",
+      "group": "Agro",
+      "color": 4281236786,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "op_colheitadeira",
+      "name": "Operador de Colheitadeira",
+      "emoji": "🌾",
+      "group": "Agro",
+      "color": 4281896508,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "op_escavadeira",
+      "name": "Operador de Escavadeira",
+      "emoji": "🏗️",
+      "group": "Agro",
+      "color": 4294551589,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "op_pa_carregadeira",
+      "name": "Operador de Pá Carregadeira",
+      "emoji": "🚧",
+      "group": "Agro",
+      "color": 4294551589,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "op_motoniveladora",
+      "name": "Operador de Motoniveladora",
+      "emoji": "🛣️",
+      "group": "Agro",
+      "color": 4293880832,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "op_retroescavadeira",
+      "name": "Operador de Retroescavadeira",
+      "emoji": "⛏️",
+      "group": "Agro",
+      "color": 4293880832,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "pulverizacao_terrestre",
+      "name": "Pulverização Terrestre",
+      "emoji": "💨",
+      "group": "Agro",
+      "color": 4282622023,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aplicacao_defensivos",
+      "name": "Aplicação de Defensivos",
+      "emoji": "🧪",
+      "group": "Agro",
+      "color": 4283796271,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "irrigacao",
+      "name": "Irrigação",
+      "emoji": "💧",
+      "group": "Agro",
+      "color": 4278356177,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "plantio",
+      "name": "Plantio",
+      "emoji": "🌱",
+      "group": "Agro",
+      "color": 4281236786,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "colheita",
+      "name": "Colheita",
+      "emoji": "🌾",
+      "group": "Agro",
+      "color": 4285046584,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "silagem",
+      "name": "Silagem",
+      "emoji": "🌽",
+      "group": "Agro",
+      "color": 4286740247,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "topografia",
+      "name": "Topografia",
+      "emoji": "📐",
+      "group": "Agro",
+      "color": 4278217052,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "georreferenciamento",
+      "name": "Georreferenciamento",
+      "emoji": "🛰️",
+      "group": "Agro",
+      "color": 4278223759,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "poco_artesiano",
+      "name": "Poço Artesiano",
+      "emoji": "🕳️",
+      "group": "Agro",
+      "color": 4278351805,
+      "categoryId": "hidraulica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "energia_solar_rural",
+      "name": "Energia Solar Rural",
+      "emoji": "☀️",
+      "group": "Agro",
+      "color": 4294551589,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "construcao_cercas",
+      "name": "Construção de Cercas",
+      "emoji": "🚧",
+      "group": "Agro",
+      "color": 4285353025,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "soldador_rural",
+      "name": "Soldador Rural",
+      "emoji": "🔥",
+      "group": "Agro",
+      "color": 4292363029,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "mecanico_agricola",
+      "name": "Mecânico Agrícola",
+      "emoji": "🔩",
+      "group": "Agro",
+      "color": 4282735204,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "transporte_gado",
+      "name": "Transporte de Gado",
+      "emoji": "🐄",
+      "group": "Agro",
+      "color": 4286141768,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "transporte_maquinas",
+      "name": "Transporte de Máquinas",
+      "emoji": "🚛",
+      "group": "Agro",
+      "color": 4284301367,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "frete_agricola",
+      "name": "Frete Agrícola",
+      "emoji": "🚚",
+      "group": "Agro",
+      "color": 4285353025,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "drone_pulverizacao",
+      "name": "Pulverização com Drone",
+      "emoji": "🚁",
+      "group": "Drones",
+      "color": 4279592384,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "drone_pulverizacao_urbana",
+      "name": "Pulverização Urbana",
+      "emoji": "🚁",
+      "group": "Drones",
+      "color": 4279858898,
+      "categoryId": "drones",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "drone_filmagem",
+      "name": "Filmagem Aérea",
+      "emoji": "🎥",
+      "group": "Drones",
+      "color": 4280825235,
+      "categoryId": "drones",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "drone_fotografia",
+      "name": "Fotografia Aérea",
+      "emoji": "📸",
+      "group": "Drones",
+      "color": 4281944491,
+      "categoryId": "drones",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "drone_mapeamento",
+      "name": "Mapeamento de Fazendas",
+      "emoji": "🗺️",
+      "group": "Drones",
+      "color": 4278217052,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "drone_inspecao_telhados",
+      "name": "Inspeção de Telhados",
+      "emoji": "🏠",
+      "group": "Drones",
+      "color": 4278356177,
+      "categoryId": "construcao-e-reforma",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "drone_inspecao_industrial",
+      "name": "Inspeção Industrial",
+      "emoji": "🏭",
+      "group": "Drones",
+      "color": 4282735204,
+      "categoryId": "drones",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "drone_topografia",
+      "name": "Levantamento Topográfico",
+      "emoji": "📐",
+      "group": "Drones",
+      "color": 4278223759,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_trator",
+      "name": "Aluguel de Trator",
+      "emoji": "🚜",
+      "group": "Máquinas",
+      "color": 4281236786,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_escavadeira",
+      "name": "Aluguel de Escavadeira",
+      "emoji": "🏗️",
+      "group": "Máquinas",
+      "color": 4294551589,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_retroescavadeira",
+      "name": "Aluguel de Retroescavadeira",
+      "emoji": "⛏️",
+      "group": "Máquinas",
+      "color": 4293880832,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_pa_carregadeira",
+      "name": "Aluguel de Pá Carregadeira",
+      "emoji": "🚧",
+      "group": "Máquinas",
+      "color": 4294551589,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_motoniveladora",
+      "name": "Aluguel de Motoniveladora",
+      "emoji": "🛣️",
+      "group": "Máquinas",
+      "color": 4293880832,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_basculante",
+      "name": "Caminhão Basculante",
+      "emoji": "🚛",
+      "group": "Máquinas",
+      "color": 4284301367,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_caminhao_pipa",
+      "name": "Caminhão Pipa",
+      "emoji": "🚰",
+      "group": "Máquinas",
+      "color": 4278356177,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_guindaste",
+      "name": "Guindaste",
+      "emoji": "🏗️",
+      "group": "Máquinas",
+      "color": 4291176488,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_plataforma",
+      "name": "Plataforma Elevatória",
+      "emoji": "🛗",
+      "group": "Máquinas",
+      "color": 4285143962,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_compactador",
+      "name": "Compactador",
+      "emoji": "🧱",
+      "group": "Máquinas",
+      "color": 4285353025,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_betoneira",
+      "name": "Betoneira",
+      "emoji": "🛞",
+      "group": "Máquinas",
+      "color": 4285887861,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_rocadeira",
+      "name": "Roçadeira",
+      "emoji": "🌿",
+      "group": "Máquinas",
+      "color": 4283796271,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_gerador",
+      "name": "Gerador",
+      "emoji": "🔌",
+      "group": "Máquinas",
+      "color": 4294551589,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_compressor",
+      "name": "Compressor",
+      "emoji": "💨",
+      "group": "Máquinas",
+      "color": 4282735204,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_carro",
+      "name": "Aluguel de Carro",
+      "emoji": "🚗",
+      "group": "Veículos",
+      "color": 4279592384,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_caminhonete",
+      "name": "Aluguel de Caminhonete",
+      "emoji": "🛻",
+      "group": "Veículos",
+      "color": 4278351805,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_van",
+      "name": "Aluguel de Van",
+      "emoji": "🚐",
+      "group": "Veículos",
+      "color": 4278217052,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_caminhao",
+      "name": "Aluguel de Caminhão",
+      "emoji": "🚛",
+      "group": "Veículos",
+      "color": 4284301367,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_moto",
+      "name": "Aluguel de Moto",
+      "emoji": "🏍️",
+      "group": "Veículos",
+      "color": 4293284096,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_onibus",
+      "name": "Aluguel de Ônibus",
+      "emoji": "🚌",
+      "group": "Veículos",
+      "color": 4280825235,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_maquinas_agricolas",
+      "name": "Máquinas Agrícolas",
+      "emoji": "🚜",
+      "group": "Veículos",
+      "color": 4281236786,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_reboque",
+      "name": "Reboque",
+      "emoji": "🚙",
+      "group": "Veículos",
+      "color": 4282735204,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_carretinha",
+      "name": "Carretinha",
+      "emoji": "🛒",
+      "group": "Veículos",
+      "color": 4285353025,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "servente",
+      "name": "Servente de Obra",
+      "emoji": "👷",
+      "group": "Mão de Obra",
+      "color": 4285353025,
+      "categoryId": "construcao-e-reforma",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "carpinteiro",
+      "name": "Carpinteiro",
+      "emoji": "🪵",
+      "group": "Mão de Obra",
+      "color": 4286141768,
+      "categoryId": "construcao-e-reforma",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "armador",
+      "name": "Armador",
+      "emoji": "🔗",
+      "group": "Mão de Obra",
+      "color": 4283723386,
+      "categoryId": "construcao-e-reforma",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "soldador",
+      "name": "Soldador",
+      "emoji": "🔥",
+      "group": "Mão de Obra",
+      "color": 4292363029,
+      "categoryId": "construcao-e-reforma",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "gesseiro",
+      "name": "Gesseiro",
+      "emoji": "🧱",
+      "group": "Mão de Obra",
+      "color": 4287458915,
+      "categoryId": "construcao-e-reforma",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "cuidador_idosos",
+      "name": "Cuidador de Idosos",
+      "emoji": "🧓",
+      "group": "Mão de Obra",
+      "color": 4289533015,
+      "categoryId": "saude-e-bem-estar",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "vigilante",
+      "name": "Vigilante",
+      "emoji": "🛡️",
+      "group": "Mão de Obra",
+      "color": 4281812815,
+      "categoryId": "seguranca-e-portaria",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "porteiro",
+      "name": "Porteiro",
+      "emoji": "🚪",
+      "group": "Mão de Obra",
+      "color": 4282735204,
+      "categoryId": "seguranca-e-portaria",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aux_servicos_gerais",
+      "name": "Auxiliar de Serviços Gerais",
+      "emoji": "🧰",
+      "group": "Mão de Obra",
+      "color": 4284513675,
+      "categoryId": "limpeza",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "trabalhador_rural",
+      "name": "Trabalhador Rural",
+      "emoji": "👨‍🌾",
+      "group": "Mão de Obra",
+      "color": 4283796271,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "caseiro",
+      "name": "Caseiro",
+      "emoji": "🏡",
+      "group": "Mão de Obra",
+      "color": 4285353025,
+      "categoryId": "cuidados",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "operador_maquinas",
+      "name": "Operador de Máquinas",
+      "emoji": "⚙️",
+      "group": "Mão de Obra",
+      "color": 4282735204,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "zootecnista",
+      "name": "Zootecnista",
+      "emoji": "🐂",
+      "group": "Agro",
+      "color": 4285353025,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "tecnico_agricola",
+      "name": "Técnico Agrícola",
+      "emoji": "🌾",
+      "group": "Agro",
+      "color": 4283796271,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "capataz",
+      "name": "Capataz",
+      "emoji": "🤠",
+      "group": "Agro",
+      "color": 4286141768,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "vaqueiro",
+      "name": "Vaqueiro",
+      "emoji": "🐎",
+      "group": "Agro",
+      "color": 4287458915,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "ordenhador",
+      "name": "Ordenhador",
+      "emoji": "🥛",
+      "group": "Agro",
+      "color": 4287669422,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "drone_monitoramento_obras",
+      "name": "Monitoramento de Obras",
+      "emoji": "🏗️",
+      "group": "Drones",
+      "color": 4281812815,
+      "categoryId": "drones",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_suv",
+      "name": "Aluguel de SUV",
+      "emoji": "🚙",
+      "group": "Veículos",
+      "color": 4279592384,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_rolo_compactador",
+      "name": "Rolo Compactador",
+      "emoji": "🛞",
+      "group": "Máquinas",
+      "color": 4285353025,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_material_construcao",
+      "name": "Material de Construção",
+      "emoji": "🧱",
+      "group": "Lojas",
+      "color": 4285353025,
+      "categoryId": "construcao-e-reforma",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_autopecas",
+      "name": "Autopeças",
+      "emoji": "🔧",
+      "group": "Lojas",
+      "color": 4282735204,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_agropecuaria",
+      "name": "Loja Agropecuária",
+      "emoji": "🌾",
+      "group": "Lojas",
+      "color": 4281236786,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_ferragens",
+      "name": "Ferragens",
+      "emoji": "🔩",
+      "group": "Lojas",
+      "color": 4283723386,
+      "categoryId": "construcao-e-reforma",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_moveis",
+      "name": "Móveis",
+      "emoji": "🛋️",
+      "group": "Lojas",
+      "color": 4286141768,
+      "categoryId": "construcao-e-reforma",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_celulares",
+      "name": "Celulares",
+      "emoji": "📱",
+      "group": "Lojas",
+      "color": 4279858898,
+      "categoryId": "tecnologia",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_eletrodomesticos",
+      "name": "Eletrodomésticos",
+      "emoji": "🔌",
+      "group": "Lojas",
+      "color": 4278356177,
+      "categoryId": "eletrica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_ferramentas",
+      "name": "Ferramentas",
+      "emoji": "🧰",
+      "group": "Lojas",
+      "color": 4294551589,
+      "categoryId": "construcao-e-reforma",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_piscinas",
+      "name": "Piscinas",
+      "emoji": "🏊",
+      "group": "Lojas",
+      "color": 4278234305,
+      "categoryId": "hidraulica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_energia_solar",
+      "name": "Energia Solar",
+      "emoji": "☀️",
+      "group": "Lojas",
+      "color": 4294551589,
+      "categoryId": "eletrica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_seguranca_eletronica",
+      "name": "Segurança Eletrônica",
+      "emoji": "📹",
+      "group": "Lojas",
+      "color": 4281812815,
+      "categoryId": "eletrica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_jardinagem",
+      "name": "Jardinagem",
+      "emoji": "🪴",
+      "group": "Lojas",
+      "color": 4283796271,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_epis",
+      "name": "EPIs e Segurança",
+      "emoji": "🦺",
+      "group": "Lojas",
+      "color": 4294551589,
+      "categoryId": "seguranca-e-portaria",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_racoes",
+      "name": "Rações",
+      "emoji": "🐕",
+      "group": "Lojas",
+      "color": 4286141768,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_veterinarios",
+      "name": "Produtos Veterinários",
+      "emoji": "💉",
+      "group": "Lojas",
+      "color": 4278217052,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "op_rolo_compactador",
+      "name": "Operador de Rolo Compactador",
+      "emoji": "🛞",
+      "group": "Agro",
+      "color": 4285353025,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "op_caminhao_pipa",
+      "name": "Operador de Caminhão Pipa",
+      "emoji": "🚰",
+      "group": "Agro",
+      "color": 4278356177,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "op_caminhao_basculante",
+      "name": "Operador de Caminhão Basculante",
+      "emoji": "🚛",
+      "group": "Agro",
+      "color": 4284301367,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "drone_agricultura_precisao",
+      "name": "Agricultura de Precisão",
+      "emoji": "🎯",
+      "group": "Drones",
+      "color": 4278223759,
+      "categoryId": "agro-e-rural",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_perfuratriz",
+      "name": "Perfuratriz",
+      "emoji": "🕳️",
+      "group": "Máquinas",
+      "color": 4282735204,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "aluguel_mini_escavadeira",
+      "name": "Mini Escavadeira",
+      "emoji": "🚧",
+      "group": "Máquinas",
+      "color": 4294551589,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_eletrica",
+      "name": "Elétrica",
+      "emoji": "💡",
+      "group": "Lojas",
+      "color": 4294551589,
+      "categoryId": "eletrica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "loja_hidraulica",
+      "name": "Hidráulica",
+      "emoji": "🚿",
+      "group": "Lojas",
+      "color": 4278351805,
+      "categoryId": "hidraulica",
+      "asset": null,
+      "keywords": []
+    },
+    {
+      "id": "odontologia",
+      "name": "Odontologia",
+      "emoji": "😁",
+      "group": "Saúde",
+      "color": 4278223759,
+      "categoryId": "saude-e-bem-estar",
+      "asset": null,
+      "keywords": [
+        "odontologia",
+        "dentista"
+      ]
+    }
+  ]
+}

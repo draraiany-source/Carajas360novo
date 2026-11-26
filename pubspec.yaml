@@ -57,15 +57,17 @@ flutter:
   assets:
     - assets/logos/
     - assets/icons/png/
-    - assets/icons/svg/
+    - assets/icons/categories/512/
+    - assets/icons/categories/256/
+    - assets/icons/subcategories/512/
+    - assets/icons/subcategories/256/
     - assets/illustrations/
     - assets/onboarding/
     - assets/splash/
     - assets/splash/png/
     - assets/banners/
-    - assets/categories/
-    - assets/categories/outline/
     - assets/avatars/
+    - functions/data/catalogo_categorias.json
     - assets/lottie/
     - assets/animations/
     - assets/backgrounds/

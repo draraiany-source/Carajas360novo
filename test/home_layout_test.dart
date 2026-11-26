@@ -4,11 +4,13 @@ import 'package:servico_conecta/features/home/home_layout.dart';
 import 'package:servico_conecta/shared/services/payment_gateway.dart';
 
 void main() {
-  test('tiles da home em 1280x800 não passam de 168px', () {
-    const content = 1280 - 248;
+  test('grade desktop em 1280x800 fica com 5 colunas e tile legível', () {
+    const content = 1280 - 248 - 40;
+    expect(HomeLayout.columnsFor(content.toDouble()), 5);
     expect(HomeLayout.estimatedTileWidth(content.toDouble()),
-        lessThanOrEqualTo(168));
-    expect(HomeLayout.tileMainAxisExtent, 112);
+        greaterThanOrEqualTo(140));
+    expect(HomeLayout.columnsFor(390), 2);
+    expect(HomeLayout.columnsFor(640), 3);
   });
 
   test('banner estreito empilha os botões e esconde o retrato', () {

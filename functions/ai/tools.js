@@ -20,24 +20,9 @@ const SPECIALTIES = [
   { id: 'exames', name: 'Exames e Laboratórios', category: 'medico' },
 ];
 
-const CATEGORIES = [
-  { id: 'eletricista', name: 'Eletricista', group: 'Casa' },
-  { id: 'encanador', name: 'Encanador', group: 'Casa' },
-  { id: 'pedreiro', name: 'Pedreiro', group: 'Casa' },
-  { id: 'pintor', name: 'Pintor', group: 'Casa' },
-  { id: 'diarista', name: 'Diarista', group: 'Limpeza' },
-  { id: 'jardineiro', name: 'Jardineiro', group: 'Jardim' },
-  { id: 'medico', name: 'Médico', group: 'Saúde' },
-  { id: 'enfermeiro', name: 'Enfermeiro', group: 'Saúde' },
-  { id: 'fisioterapeuta', name: 'Fisioterapeuta', group: 'Saúde' },
-  { id: 'psicologo', name: 'Psicólogo', group: 'Saúde' },
-  { id: 'nutricionista', name: 'Nutricionista', group: 'Saúde' },
-  { id: 'home_care', name: 'Home Care', group: 'Saúde' },
-  { id: 'odontologia', name: 'Odontologia', group: 'Saúde' },
-  { id: 'cabeleireiro', name: 'Cabeleireiro', group: 'Beleza' },
-  { id: 'manicure', name: 'Manicure', group: 'Beleza' },
-  { id: 'mecanico', name: 'Mecânico', group: 'Auto' },
-];
+const { publicProfessions } = require('../platform/catalogo');
+
+const CATEGORIES = publicProfessions();
 
 const ACTION_TYPES = new Set([
   'request_quote',

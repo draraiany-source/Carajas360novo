@@ -5,7 +5,6 @@ import 'package:shimmer/shimmer.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
-import '../../core/constants/app_assets.dart';
 import '../services/firebase_service.dart';
 import 'micro_interactions.dart';
 
@@ -265,6 +264,7 @@ class ProvCard extends StatelessWidget {
   final String? photo;
   final String? providerId;
   final VoidCallback? onTap, onChat;
+  final Widget? emblem;
   const ProvCard(
       {super.key,
       required this.name,
@@ -278,7 +278,8 @@ class ProvCard extends StatelessWidget {
       this.photo,
       this.providerId,
       this.onTap,
-      this.onChat});
+      this.onChat,
+      this.emblem});
   @override
   Widget build(BuildContext context) => TapScale(
         onTap: onTap,
@@ -309,7 +310,10 @@ class ProvCard extends StatelessWidget {
                                 color: AppColors.secondary)),
                       ]),
                   const SizedBox(height: 2),
-                  Text(role, style: Theme.of(context).textTheme.bodySmall),
+                  if (emblem != null)
+                    SizedBox(width: 88, height: 88, child: emblem)
+                  else
+                    Text(role, style: Theme.of(context).textTheme.bodySmall),
                   const SizedBox(height: 6),
                   Wrap(spacing: 5, runSpacing: 4, children: [
                     AppTag('★ ${rating.toStringAsFixed(1)}',
@@ -454,7 +458,7 @@ class EmptyState extends StatelessWidget {
       this.onAction});
   @override
   Widget build(BuildContext context) => Center(
-      child: Padding(
+      child: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             asset != null
@@ -503,11 +507,7 @@ class CatChip extends StatelessWidget {
       required this.onTap});
   @override
   Widget build(BuildContext context) {
-    final iconPath =
-        categoryId != null ? AppAssets.categoryIcon(categoryId!) : null;
-    final Widget icon = iconPath != null
-        ? SvgPicture.asset(iconPath, width: 18, height: 18)
-        : Text(emoji, style: const TextStyle(fontSize: 15));
+    final Widget icon = Text(emoji, style: const TextStyle(fontSize: 15));
     return GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(

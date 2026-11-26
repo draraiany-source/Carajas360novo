@@ -9,7 +9,9 @@ import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_controller.dart';
 import 'shared/widgets/micro_interactions.dart';
+import 'core/catalog/service_catalog.dart';
 import 'core/constants/app_constants.dart';
+import 'features/catalog/category_browse.dart';
 import 'core/constants/runtime_config.dart';
 import 'core/utils/firebase_bootstrap.dart';
 import 'shared/services/firebase_service.dart';
@@ -37,6 +39,7 @@ import 'package:servico_conecta/features/orders/orders_screen.dart';
 import 'package:servico_conecta/features/provider/provider_home_screen.dart';
 import 'package:servico_conecta/features/home/provider_profile_screen.dart';
 import 'package:servico_conecta/core/auth/access_control.dart';
+import 'package:servico_conecta/shared/widgets/c360_nav.dart';
 import 'package:servico_conecta/shared/widgets/c360_shell.dart';
 
 Future<void> main() async {
@@ -80,6 +83,7 @@ Future<void> main() async {
   }
 
   RuntimeConfig.firebaseReady = firebaseOk;
+  await ServiceCatalog.load();
   runApp(ServicoConectaApp(firebaseOk: firebaseOk));
 }
 
@@ -117,8 +121,24 @@ class ServicoConectaApp extends StatelessWidget {
                 return _route(const MainNav());
               case Routes.search:
                 final sa = settings.arguments as Map<String, dynamic>?;
-                return _route(
-                    SearchScreen(initialCategory: sa?['category'] as String?));
+                final view = sa?['view'] as String?;
+                final category = sa?['category'] as String?;
+                if (view == 'sub' && category != null) {
+                  return _route(SubcategoryScreen(categoryId: category));
+                }
+                if (view == 'board') {
+                  return _route(CategoryBoardScreen(
+                    mode: sa?['mode'] == 'extras'
+                        ? CategoryBoardMode.extras
+                        : CategoryBoardMode.all,
+                  ));
+                }
+                return _route(SearchScreen(
+                  initialCategory: category,
+                  mode: sa?['mode'] == 'professionals'
+                      ? SearchMode.professionals
+                      : SearchMode.explore,
+                ));
               case Routes.chat:
                 final a = settings.arguments as Map<String, dynamic>?;
                 return _route(ChatScreen(

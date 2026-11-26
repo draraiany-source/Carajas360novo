@@ -13,6 +13,7 @@ import '../../core/utils/platform_info.dart';
 import '../../shared/models/models.dart';
 import '../../shared/services/firebase_service.dart';
 import '../../shared/widgets/widgets.dart';
+import '../catalog/profession_picker.dart';
 import '../support/support_screens.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -1299,7 +1300,7 @@ class _RegState extends State<RegisterScreen>
                                   const SizedBox(height: 12),
                                   Container(
                                     constraints:
-                                        const BoxConstraints(maxHeight: 280),
+                                        const BoxConstraints(maxHeight: 520),
                                     decoration: BoxDecoration(
                                         color: SpanDs.background
                                             .withValues(alpha: 0.55),
@@ -1309,45 +1310,17 @@ class _RegState extends State<RegisterScreen>
                                             color: SpanDs.border)),
                                     padding: const EdgeInsets.all(12),
                                     child: SingleChildScrollView(
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                          for (final g
-                                              in Categories.groups) ...[
-                                            Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 4, bottom: 8),
-                                                child: Text(g.toUpperCase(),
-                                                    style: SpanDs.poppins(
-                                                        size: 10,
-                                                        weight: FontWeight.w800,
-                                                        color: SpanDs
-                                                            .textTertiary,
-                                                        letterSpacing: 0.8))),
-                                            Wrap(
-                                                spacing: 8,
-                                                runSpacing: 8,
-                                                children: Categories.all
-                                                    .where((c) => c.group == g)
-                                                    .map((c) {
-                                                  final sel = _selectedCats
-                                                      .contains(c.id);
-                                                  return CatChip(
-                                                      emoji: c.emoji,
-                                                      name: c.name,
-                                                      categoryId: c.id,
-                                                      color: c.color,
-                                                      selected: sel,
-                                                      onTap: () => setState(
-                                                          () => sel
-                                                              ? _selectedCats
-                                                                  .remove(c.id)
-                                                              : _selectedCats
-                                                                  .add(c.id)));
-                                                }).toList()),
-                                          ],
-                                        ])),
+                                      child: ProfessionPicker(
+                                        selected: _selectedCats,
+                                        onToggle: (id) => setState(() {
+                                          if (_selectedCats.contains(id)) {
+                                            _selectedCats.remove(id);
+                                          } else {
+                                            _selectedCats.add(id);
+                                          }
+                                        }),
+                                      ),
+                                    ),
                                   ),
                                   const SizedBox(height: 16),
                                 ],

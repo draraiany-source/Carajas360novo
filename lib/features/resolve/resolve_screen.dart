@@ -7,6 +7,7 @@ import '../../shared/models/models.dart';
 import '../../shared/services/firebase_service.dart';
 import '../../shared/widgets/c360_ui.dart';
 import '../../shared/widgets/widgets.dart';
+import '../catalog/profession_picker.dart';
 
 /// Cliente: descreve necessidade e recebe propostas.
 class ResolveScreen extends StatefulWidget {
@@ -106,23 +107,13 @@ class _ResolveScreenState extends State<ResolveScreen> {
           const Text('Categoria',
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
           const SizedBox(height: 8),
-          SizedBox(
-            height: 40,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: Categories.all.length.clamp(0, 30),
-              separatorBuilder: (_, __) => const SizedBox(width: 8),
-              itemBuilder: (_, i) {
-                final c = Categories.all[i];
-                return CatChip(
-                  emoji: c.emoji,
-                  name: c.name,
-                  categoryId: c.id,
-                  color: c.color,
-                  selected: _category == c.id,
-                  onTap: () => setState(() => _category = c.id),
-                );
-              },
+          Container(
+            constraints: const BoxConstraints(maxHeight: 280),
+            child: SingleChildScrollView(
+              child: ProfessionPicker(
+                selected: {if (_category != null) _category!},
+                onToggle: (id) => setState(() => _category = id),
+              ),
             ),
           ),
           const SizedBox(height: 16),
