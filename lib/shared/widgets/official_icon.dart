@@ -4,15 +4,17 @@ import '../../core/catalog/service_catalog.dart';
 import '../../core/theme/app_colors.dart';
 import '../../features/home/home_layout.dart';
 
-/// Tile do ícone oficial. A arte já traz o nome: não há texto por cima.
-/// Sem arquivo, o tile é verde-esmeralda com borda dourada e o nome em texto.
-class OfficialIcon extends StatelessWidget {
+/// Ícone oficial compacto. A arte já tem a borda dourada: o card não
+/// desenha outra. Sem arquivo, o fallback é um cartão discreto com o nome.
+class OfficialIcon extends StatefulWidget {
   final String label;
   final String? assetPath;
   final bool pendingArt;
   final bool selected;
   final VoidCallback? onTap;
   final double? size;
+  final IconTier tier;
+  final bool caption;
 
   const OfficialIcon({
     super.key,
@@ -22,27 +24,92 @@ class OfficialIcon extends StatelessWidget {
     this.selected = false,
     this.onTap,
     this.size,
+    this.tier = IconTier.category,
+    this.caption = false,
   });
 
   @override
+  State<OfficialIcon> createState() => _OfficialIconState();
+}
+
+class _OfficialIconState extends State<OfficialIcon> {
+  bool _pressed = false;
+  bool _hover = false;
+
+  @override
   Widget build(BuildContext context) {
-    final child = assetPath == null
-        ? _NeutralTile(label: label, selected: selected)
-        : _ArtTile(path: assetPath!, selected: selected, label: label);
+    final width = MediaQuery.sizeOf(context).width;
+    final icon = widget.size ?? HomeLayout.iconSize(widget.tier, width);
+    final showCaption = widget.caption || widget.assetPath == null;
+    final art = widget.assetPath == null
+        ? const _NeutralTile()
+        : _ArtTile(path: widget.assetPath!, logical: icon);
     return Semantics(
       container: true,
-      button: onTap != null,
-      label: label,
-      selected: selected,
+      button: widget.onTap != null,
+      label: widget.label,
+      selected: widget.selected,
       excludeSemantics: true,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(28),
-          child: size == null
-              ? child
-              : SizedBox(width: size, height: size, child: child),
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _hover = true),
+        onExit: (_) => setState(() => _hover = false),
+        child: GestureDetector(
+          onTapDown: widget.onTap == null ? null : (_) => setState(() => _pressed = true),
+          onTapUp: widget.onTap == null ? null : (_) => setState(() => _pressed = false),
+          onTapCancel: () => setState(() => _pressed = false),
+          onTap: widget.onTap,
+          child: AnimatedScale(
+            scale: _pressed ? 0.96 : 1,
+            duration: const Duration(milliseconds: 120),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 140),
+                  width: icon + 12,
+                  height: icon + 12,
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: widget.selected
+                          ? AppColors.primary
+                          : const Color(0xFFE6EEE8),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.navy.withValues(alpha: _hover ? 0.10 : 0.05),
+                        blurRadius: _hover ? 10 : 6,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: SizedBox(width: icon, height: icon, child: art),
+                  ),
+                ),
+                if (showCaption) ...[
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    width: icon + 12,
+                    child: Text(
+                      widget.label,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        height: 1.15,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textMedium,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -51,76 +118,32 @@ class OfficialIcon extends StatelessWidget {
 
 class _ArtTile extends StatelessWidget {
   final String path;
-  final bool selected;
-  final String label;
-  const _ArtTile({
-    required this.path,
-    required this.selected,
-    required this.label,
-  });
+  final double logical;
+  const _ArtTile({required this.path, required this.logical});
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      final logical = constraints.maxWidth.isFinite && constraints.maxWidth > 0
-          ? constraints.maxWidth
-          : 160.0;
-      final cache = (logical * MediaQuery.devicePixelRatioOf(context))
-          .round()
-          .clamp(64, 512);
-      return DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(logical * 0.18),
-          border: selected
-              ? Border.all(color: AppColors.gold, width: 3)
-              : null,
-        ),
-        child: Image(
-          image: ResizeImage(AssetImage(path), width: cache),
-          fit: BoxFit.contain,
-          gaplessPlayback: true,
-          filterQuality: FilterQuality.medium,
-          errorBuilder: (_, __, ___) => _NeutralTile(label: label, selected: selected),
-        ),
-      );
-    });
+    final cache = (logical * MediaQuery.devicePixelRatioOf(context))
+        .round()
+        .clamp(48, 512);
+    return Image(
+      image: ResizeImage(AssetImage(path), width: cache),
+      width: logical,
+      height: logical,
+      fit: BoxFit.contain,
+      gaplessPlayback: true,
+      filterQuality: FilterQuality.medium,
+      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+    );
   }
 }
 
 class _NeutralTile extends StatelessWidget {
-  final String label;
-  final bool selected;
-  const _NeutralTile({required this.label, required this.selected});
+  const _NeutralTile();
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: const Color(0xFF146B34),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(
-          color: AppColors.gold,
-          width: selected ? 4 : 3,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-        child: Center(
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
-              fontSize: 15,
-              height: 1.15,
-            ),
-          ),
-        ),
-      ),
-    );
+    return const ColoredBox(color: Color(0xFFF4F7F5));
   }
 }
 
@@ -166,6 +189,7 @@ class OfficialIconGrid extends StatelessWidget {
   final String keyPrefix;
   final Set<String> selected;
   final int? maxVisibleRows;
+  final IconTier tier;
 
   const OfficialIconGrid({
     super.key,
@@ -174,14 +198,25 @@ class OfficialIconGrid extends StatelessWidget {
     this.keyPrefix = 'icone-',
     this.selected = const {},
     this.maxVisibleRows,
+    this.tier = IconTier.category,
   });
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       final width = constraints.maxWidth.isFinite ? constraints.maxWidth : 360.0;
-      final columns = HomeLayout.columnsFor(width);
-      final tile = HomeLayout.tileExtent(width);
+      final screen = MediaQuery.sizeOf(context).width;
+      // No celular a margem da página não pode derrubar 360 px para 2 colunas.
+      final basis = screen < 600 ? screen : width;
+      final icon = HomeLayout.iconSize(tier, screen);
+      final card = icon + 12;
+      var columns = HomeLayout.columnsFor(basis);
+      while (columns > 1 &&
+          (width - HomeLayout.tileGap * (columns - 1)) / columns < card - 1) {
+        columns--;
+      }
+      final needsCaption = items.any((item) => item.asset256 == null && item.asset512 == null);
+      final tile = icon + 16 + (needsCaption ? 38 : 0);
       final rows = (items.length / columns).ceil().clamp(1, 99);
       final full = rows * tile + HomeLayout.tileGap * (rows - 1);
       final cap = maxVisibleRows == null
@@ -196,17 +231,20 @@ class OfficialIconGrid extends StatelessWidget {
           crossAxisCount: columns,
           mainAxisSpacing: HomeLayout.tileGap,
           crossAxisSpacing: HomeLayout.tileGap,
-          childAspectRatio: 1,
+          mainAxisExtent: tile,
         ),
         itemBuilder: (_, i) {
           final item = items[i];
-          return OfficialIcon(
-            key: Key('$keyPrefix${item.id}'),
-            label: item.label,
-            assetPath: item.asset256,
-            pendingArt: item.pendingArt,
-            selected: selected.contains(item.id),
-            onTap: () => onTap(item),
+          return Center(
+            child: OfficialIcon(
+              key: Key('$keyPrefix${item.id}'),
+              label: item.label,
+              assetPath: item.asset256 ?? item.asset512,
+              pendingArt: item.pendingArt,
+              selected: selected.contains(item.id),
+              tier: tier,
+              onTap: () => onTap(item),
+            ),
           );
         },
       );
@@ -222,7 +260,7 @@ class OfficialIconGrid extends StatelessWidget {
 /// Pré-carrega só os ícones da home (versão de grade).
 void precacheHomeIcons(BuildContext context) {
   final dpr = MediaQuery.devicePixelRatioOf(context);
-  final cache = (200 * dpr).round().clamp(128, 512);
+  final cache = (104 * dpr).round().clamp(64, 320);
   for (final category in ServiceCatalog.homeCategories) {
     final path = category.asset256;
     if (path == null) continue;

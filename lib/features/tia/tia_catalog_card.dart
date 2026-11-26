@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/catalog/service_catalog.dart';
 import '../../core/theme/app_colors.dart';
+import '../../features/home/home_layout.dart';
 import '../../shared/widgets/official_icon.dart';
 import '../catalog/category_browse.dart';
 
@@ -38,14 +39,13 @@ class TiaCatalogCard extends StatelessWidget {
               const SizedBox(height: 8),
               Align(
                 alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  width: 160,
-                  height: 160,
-                  child: OfficialIcon(
-                    label: match.name,
-                    assetPath: asset,
-                    pendingArt: pending,
-                  ),
+                child: OfficialIcon(
+                  label: match.name,
+                  assetPath: asset,
+                  pendingArt: pending,
+                  tier: IconTier.list,
+                  size: 48,
+                  caption: true,
                 ),
               ),
               const SizedBox(height: 10),

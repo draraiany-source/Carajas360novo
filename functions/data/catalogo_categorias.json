@@ -1,20 +1,25 @@
 {
-  "version": 1,
+  "version": 2,
   "firestore": {
-    "decisao": "Nenhuma coleção nova e nenhum campo novo. providers.categories e orders.category continuam com o id da profissão já usado no Firestore (pedreiro, eletricista, ar_condicionado). Os ids visuais (construcao-e-reforma e os demais pais) existem só neste catálogo. serralheiro é id novo, sem documentos antigos. A coleção categories do Firestore não é a fonte dos ícones."
+    "decisao": "Nenhum campo novo em providers ou orders. Ids já usados continuam (pedreiro, ar_condicionado, manicure, fotografo, mudanca, operador_maquinas, aux_servicos_gerais). Ids novos, sem documentos antigos: serralheiro, barbeiro, borracharia, dedetizacao, maquiadora, montador_moveis, vidraceiro, pet_shop, locacao_de_equipamentos, energia_solar, seguranca_eletronica, festas_e_eventos, lava_jato, chaveiro, guincho, costureira, cozinheira, assistencia_tecnica."
   },
   "decisoes": [
-    "Jardineiro fica em Agro e Rural: a home já usava esse id como representante de Agro e Rural e o grupo legado é Jardim, não Limpeza.",
-    "Técnico em ar-condicionado mantém o id Firestore ar_condicionado (grupo legado Equipamentos) e a arte tecnico-ar-condicionado.webp. O pai é Máquinas e Equipamentos, não Elétrica.",
-    "Personal trainer permanece em Educação e Cursos porque o grupo legado é Educação.",
-    "A grade da home segue o painel: 5 por linha, na ordem Construção, Elétrica, Hidráulica, Limpeza, Beleza, Veículos, Agro, Máquinas, Mais Categorias e Ver Todas. Saúde e Bem-estar e Educação e Cursos têm arte oficial e aparecem em Mais Categorias e em Ver Todas, porque o painel não reserva um dos dez lugares da home para elas.",
-    "Máquinas e Equipamentos e Ver Todas não têm arquivo individual. O tile é verde-esmeralda com borda dourada e o nome em texto. Nada foi recortado do painel nem gerado como ilustração."
+    "Coleção 1024 WebP (qualidade 95, sem alteração de arte) é o master em design/icones_originais/webp1024. O app usa só 512 e 256.",
+    "Cantos brancos externos foram tornados transparentes, sem recortar a borda dourada.",
+    "Máquinas e Equipamentos e Mais Categorias agora têm arte individual (maquinas_equipamentos e mais_categorias).",
+    "Ver Todas não tem arte. Não há um segundo ícone na grade. O atalho visual é Mais Categorias. O texto Ver todas do cabeçalho abre o quadro completo.",
+    "Jardineiro permanece em Agro e Rural. Técnico em ar-condicionado mantém o id ar_condicionado e a arte tecnico_ar_condicionado, em Máquinas e Equipamentos.",
+    "Babá e cuidador de idosos ficam em Saúde e Bem-estar. Veterinário e pet shop ficam em Pets, aberto por Mais Categorias.",
+    "Chaveiro, vidraceiro, montador de móveis, gesseiro, soldador e serralheiro ficam em Construção e Reforma.",
+    "Informática e assistência técnica ficam em Tecnologia. Fotografia e festas ficam em Eventos. Fretes e mudanças mantêm o id mudanca, em Transporte. Esses grupos abrem por Mais Categorias.",
+    "Serviços gerais (id aux_servicos_gerais), costureira, cozinheira e assistência técnica não têm arte. O fallback é um cartão discreto, sem ilustração inventada.",
+    "Manicure mantém o id manicure e usa a arte manicure_pedicure. Fotógrafo mantém o id fotografo e usa a arte fotografia."
   ],
   "categories": [
     {
       "id": "construcao-e-reforma",
       "name": "Construção e Reforma",
-      "asset": "construcao-e-reforma",
+      "asset": "construcao_reforma",
       "pendingArt": false,
       "home": true,
       "homeOrder": 1,
@@ -58,7 +63,7 @@
     {
       "id": "beleza-e-estetica",
       "name": "Beleza e Estética",
-      "asset": "beleza-e-estetica",
+      "asset": "beleza_estetica",
       "pendingArt": false,
       "home": true,
       "homeOrder": 5,
@@ -69,18 +74,7 @@
     {
       "id": "veiculos-e-oficinas",
       "name": "Veículos e Oficinas",
-      "asset": "veiculos-e-oficinas",
-      "pendingArt": false,
-      "home": true,
-      "homeOrder": 6,
-      "kind": "servico",
-      "opens": null,
-      "extra": false
-    },
-    {
-      "id": "agro-e-rural",
-      "name": "Agro e Rural",
-      "asset": "agro-e-rural",
+      "asset": "veiculos_oficinas",
       "pendingArt": false,
       "home": true,
       "homeOrder": 7,
@@ -89,10 +83,10 @@
       "extra": false
     },
     {
-      "id": "maquinas-e-equipamentos",
-      "name": "Máquinas e Equipamentos",
-      "asset": null,
-      "pendingArt": true,
+      "id": "agro-e-rural",
+      "name": "Agro e Rural",
+      "asset": "agro_rural",
+      "pendingArt": false,
       "home": true,
       "homeOrder": 8,
       "kind": "servico",
@@ -100,12 +94,23 @@
       "extra": false
     },
     {
-      "id": "mais-categorias",
-      "name": "Mais Categorias",
-      "asset": "mais-categorias",
+      "id": "maquinas-e-equipamentos",
+      "name": "Máquinas e Equipamentos",
+      "asset": "maquinas_equipamentos",
       "pendingArt": false,
       "home": true,
-      "homeOrder": 9,
+      "homeOrder": 10,
+      "kind": "servico",
+      "opens": null,
+      "extra": false
+    },
+    {
+      "id": "mais-categorias",
+      "name": "Mais Categorias",
+      "asset": "mais_categorias",
+      "pendingArt": false,
+      "home": true,
+      "homeOrder": 11,
       "kind": "navegacao",
       "opens": "extras",
       "extra": false
@@ -115,8 +120,8 @@
       "name": "Ver Todas",
       "asset": null,
       "pendingArt": true,
-      "home": true,
-      "homeOrder": 10,
+      "home": false,
+      "homeOrder": 0,
       "kind": "navegacao",
       "opens": "todas",
       "extra": false
@@ -124,24 +129,24 @@
     {
       "id": "saude-e-bem-estar",
       "name": "Saúde e Bem-estar",
-      "asset": "saude-e-bem-estar",
+      "asset": "saude_bem_estar",
       "pendingArt": false,
-      "home": false,
-      "homeOrder": 0,
+      "home": true,
+      "homeOrder": 6,
       "kind": "servico",
       "opens": null,
-      "extra": true
+      "extra": false
     },
     {
       "id": "educacao-e-cursos",
       "name": "Educação e Cursos",
-      "asset": "educacao-e-cursos",
+      "asset": "educacao_cursos",
       "pendingArt": false,
-      "home": false,
-      "homeOrder": 0,
+      "home": true,
+      "homeOrder": 9,
       "kind": "servico",
       "opens": null,
-      "extra": true
+      "extra": false
     },
     {
       "id": "pets",
@@ -244,8 +249,7 @@
       "keywords": [
         "eletricista",
         "eletrica",
-        "disjuntor",
-        "curto-circuito"
+        "disjuntor"
       ]
     },
     {
@@ -259,8 +263,7 @@
       "keywords": [
         "encanador",
         "hidraulica",
-        "vazamento",
-        "cano entupido"
+        "vazamento"
       ]
     },
     {
@@ -274,8 +277,7 @@
       "keywords": [
         "pedreiro",
         "alvenaria",
-        "reboco",
-        "assentar tijolo"
+        "reboco"
       ]
     },
     {
@@ -288,7 +290,7 @@
       "asset": "pintor",
       "keywords": [
         "pintor",
-        "pintura de parede"
+        "pintura"
       ]
     },
     {
@@ -314,8 +316,7 @@
       "asset": "serralheiro",
       "keywords": [
         "serralheiro",
-        "serralheria",
-        "grade de ferro"
+        "serralheria"
       ]
     },
     {
@@ -329,7 +330,7 @@
       "keywords": [
         "diarista",
         "faxina",
-        "limpeza domestica"
+        "limpeza"
       ]
     },
     {
@@ -353,7 +354,7 @@
       "keywords": [
         "jardineiro",
         "jardinagem",
-        "poda de grama"
+        "poda"
       ]
     },
     {
@@ -423,8 +424,12 @@
       "group": "Beleza",
       "color": 4289533015,
       "categoryId": "beleza-e-estetica",
-      "asset": null,
-      "keywords": []
+      "asset": "cabeleireiro",
+      "keywords": [
+        "cabeleireiro",
+        "cabelo",
+        "corte"
+      ]
     },
     {
       "id": "manicure",
@@ -433,8 +438,12 @@
       "group": "Beleza",
       "color": 4293467747,
       "categoryId": "beleza-e-estetica",
-      "asset": null,
-      "keywords": []
+      "asset": "manicure_pedicure",
+      "keywords": [
+        "manicure",
+        "pedicure",
+        "unha"
+      ]
     },
     {
       "id": "esteticista",
@@ -443,8 +452,11 @@
       "group": "Beleza",
       "color": 4289533015,
       "categoryId": "beleza-e-estetica",
-      "asset": null,
-      "keywords": []
+      "asset": "esteticista",
+      "keywords": [
+        "esteticista",
+        "estetica"
+      ]
     },
     {
       "id": "massagem",
@@ -493,8 +505,12 @@
       "group": "Tech",
       "color": 4282722208,
       "categoryId": "tecnologia",
-      "asset": null,
-      "keywords": []
+      "asset": "informatica",
+      "keywords": [
+        "informatica",
+        "computador",
+        "notebook"
+      ]
     },
     {
       "id": "tecnico_celular",
@@ -526,8 +542,8 @@
       "asset": "mecanico",
       "keywords": [
         "mecanico",
-        "oficina mecanica",
-        "revisao do carro"
+        "oficina",
+        "carro"
       ]
     },
     {
@@ -547,8 +563,12 @@
       "group": "Pets",
       "color": 4281236786,
       "categoryId": "pets",
-      "asset": null,
-      "keywords": []
+      "asset": "veterinario",
+      "keywords": [
+        "veterinario",
+        "veterinária",
+        "pet"
+      ]
     },
     {
       "id": "banho_tosa",
@@ -587,8 +607,12 @@
       "group": "Eventos",
       "color": 4283045004,
       "categoryId": "eventos",
-      "asset": null,
-      "keywords": []
+      "asset": "fotografia",
+      "keywords": [
+        "fotografia",
+        "fotografo",
+        "foto"
+      ]
     },
     {
       "id": "dj",
@@ -607,8 +631,12 @@
       "group": "Transporte",
       "color": 4293284096,
       "categoryId": "transporte",
-      "asset": null,
-      "keywords": []
+      "asset": "fretes_mudancas",
+      "keywords": [
+        "frete",
+        "mudanca",
+        "mudança"
+      ]
     },
     {
       "id": "ar_condicionado",
@@ -617,13 +645,12 @@
       "group": "Equipamentos",
       "color": 4278356177,
       "categoryId": "maquinas-e-equipamentos",
-      "asset": "tecnico-ar-condicionado",
+      "asset": "tecnico_ar_condicionado",
       "keywords": [
         "ar condicionado",
         "ar-condicionado",
-        "arcondicionado",
-        "tecnico em ar condicionado",
-        "consertar ar"
+        "split",
+        "tecnico em ar"
       ]
     },
     {
@@ -642,9 +669,13 @@
       "emoji": "👶",
       "group": "Cuidados",
       "color": 4293467747,
-      "categoryId": "cuidados",
-      "asset": null,
-      "keywords": []
+      "categoryId": "saude-e-bem-estar",
+      "asset": "baba",
+      "keywords": [
+        "baba",
+        "babá",
+        "crianca"
+      ]
     },
     {
       "id": "entregador_moto",
@@ -1223,8 +1254,11 @@
       "group": "Mão de Obra",
       "color": 4292363029,
       "categoryId": "construcao-e-reforma",
-      "asset": null,
-      "keywords": []
+      "asset": "soldador",
+      "keywords": [
+        "soldador",
+        "solda"
+      ]
     },
     {
       "id": "gesseiro",
@@ -1233,8 +1267,12 @@
       "group": "Mão de Obra",
       "color": 4287458915,
       "categoryId": "construcao-e-reforma",
-      "asset": null,
-      "keywords": []
+      "asset": "gesseiro",
+      "keywords": [
+        "gesseiro",
+        "gesso",
+        "drywall"
+      ]
     },
     {
       "id": "cuidador_idosos",
@@ -1243,8 +1281,12 @@
       "group": "Mão de Obra",
       "color": 4289533015,
       "categoryId": "saude-e-bem-estar",
-      "asset": null,
-      "keywords": []
+      "asset": "cuidador_idosos",
+      "keywords": [
+        "cuidador de idosos",
+        "cuidador",
+        "idoso"
+      ]
     },
     {
       "id": "vigilante",
@@ -1274,7 +1316,10 @@
       "color": 4284513675,
       "categoryId": "limpeza",
       "asset": null,
-      "keywords": []
+      "keywords": [
+        "servicos gerais",
+        "auxiliar de servicos"
+      ]
     },
     {
       "id": "trabalhador_rural",
@@ -1303,8 +1348,11 @@
       "group": "Mão de Obra",
       "color": 4282735204,
       "categoryId": "maquinas-e-equipamentos",
-      "asset": null,
-      "keywords": []
+      "asset": "operador_de_maquinas",
+      "keywords": [
+        "operador de maquinas",
+        "operador"
+      ]
     },
     {
       "id": "zootecnista",
@@ -1627,6 +1675,243 @@
       "keywords": [
         "odontologia",
         "dentista"
+      ]
+    },
+    {
+      "id": "chaveiro",
+      "name": "Chaveiro",
+      "emoji": "•",
+      "group": "Casa",
+      "color": 4279528244,
+      "categoryId": "construcao-e-reforma",
+      "asset": "chaveiro",
+      "keywords": [
+        "chaveiro",
+        "fechadura",
+        "copia de chave"
+      ]
+    },
+    {
+      "id": "vidraceiro",
+      "name": "Vidraceiro",
+      "emoji": "•",
+      "group": "Casa",
+      "color": 4279528244,
+      "categoryId": "construcao-e-reforma",
+      "asset": "vidraceiro",
+      "keywords": [
+        "vidraceiro",
+        "vidro",
+        "box"
+      ]
+    },
+    {
+      "id": "montador_moveis",
+      "name": "Montador de Móveis",
+      "emoji": "•",
+      "group": "Casa",
+      "color": 4279528244,
+      "categoryId": "construcao-e-reforma",
+      "asset": "montador_moveis",
+      "keywords": [
+        "montador de moveis",
+        "montar movel",
+        "montagem de moveis"
+      ]
+    },
+    {
+      "id": "energia_solar",
+      "name": "Energia Solar",
+      "emoji": "•",
+      "group": "Casa",
+      "color": 4279528244,
+      "categoryId": "eletrica",
+      "asset": "energia_solar",
+      "keywords": [
+        "energia solar",
+        "placa solar",
+        "painel solar"
+      ]
+    },
+    {
+      "id": "seguranca_eletronica",
+      "name": "Segurança Eletrônica",
+      "emoji": "•",
+      "group": "Casa",
+      "color": 4279528244,
+      "categoryId": "eletrica",
+      "asset": "seguranca_eletronica",
+      "keywords": [
+        "seguranca eletronica",
+        "camera",
+        "alarme",
+        "cerca eletrica"
+      ]
+    },
+    {
+      "id": "dedetizacao",
+      "name": "Dedetização",
+      "emoji": "•",
+      "group": "Limpeza",
+      "color": 4279528244,
+      "categoryId": "limpeza",
+      "asset": "dedetizacao",
+      "keywords": [
+        "dedetizacao",
+        "dedetizar",
+        "praga",
+        "cupim"
+      ]
+    },
+    {
+      "id": "barbeiro",
+      "name": "Barbeiro",
+      "emoji": "•",
+      "group": "Beleza",
+      "color": 4279528244,
+      "categoryId": "beleza-e-estetica",
+      "asset": "barbeiro",
+      "keywords": [
+        "barbeiro",
+        "barba",
+        "barbearia"
+      ]
+    },
+    {
+      "id": "maquiadora",
+      "name": "Maquiadora",
+      "emoji": "•",
+      "group": "Beleza",
+      "color": 4279528244,
+      "categoryId": "beleza-e-estetica",
+      "asset": "maquiadora",
+      "keywords": [
+        "maquiadora",
+        "maquiagem"
+      ]
+    },
+    {
+      "id": "lava_jato",
+      "name": "Lava Jato",
+      "emoji": "•",
+      "group": "Veículos",
+      "color": 4279528244,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": "lava_jato",
+      "keywords": [
+        "lava jato",
+        "lavagem",
+        "lavar carro"
+      ]
+    },
+    {
+      "id": "guincho",
+      "name": "Guincho",
+      "emoji": "•",
+      "group": "Veículos",
+      "color": 4279528244,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": "guincho",
+      "keywords": [
+        "guincho",
+        "reboque"
+      ]
+    },
+    {
+      "id": "borracharia",
+      "name": "Borracharia",
+      "emoji": "•",
+      "group": "Veículos",
+      "color": 4279528244,
+      "categoryId": "veiculos-e-oficinas",
+      "asset": "borracharia",
+      "keywords": [
+        "borracharia",
+        "pneu",
+        "furado"
+      ]
+    },
+    {
+      "id": "locacao_de_equipamentos",
+      "name": "Locação de Equipamentos",
+      "emoji": "•",
+      "group": "Máquinas",
+      "color": 4279528244,
+      "categoryId": "maquinas-e-equipamentos",
+      "asset": "locacao_de_equipamentos",
+      "keywords": [
+        "locacao de equipamentos",
+        "aluguel de equipamento",
+        "alugar maquina"
+      ]
+    },
+    {
+      "id": "festas_e_eventos",
+      "name": "Festas e Eventos",
+      "emoji": "•",
+      "group": "Eventos",
+      "color": 4279528244,
+      "categoryId": "eventos",
+      "asset": "festas_e_eventos",
+      "keywords": [
+        "festa",
+        "evento",
+        "aniversario"
+      ]
+    },
+    {
+      "id": "pet_shop",
+      "name": "Pet Shop",
+      "emoji": "•",
+      "group": "Pets",
+      "color": 4279528244,
+      "categoryId": "pets",
+      "asset": "pet_shop",
+      "keywords": [
+        "pet shop",
+        "banho e tosa",
+        "petshop"
+      ]
+    },
+    {
+      "id": "costureira",
+      "name": "Costureira",
+      "emoji": "•",
+      "group": "Beleza",
+      "color": 4279528244,
+      "categoryId": "beleza-e-estetica",
+      "asset": null,
+      "keywords": [
+        "costureira",
+        "costura",
+        "barra de calca"
+      ]
+    },
+    {
+      "id": "cozinheira",
+      "name": "Cozinheira",
+      "emoji": "•",
+      "group": "Cuidados",
+      "color": 4279528244,
+      "categoryId": "cuidados",
+      "asset": null,
+      "keywords": [
+        "cozinheira",
+        "cozinha",
+        "quentinha"
+      ]
+    },
+    {
+      "id": "assistencia_tecnica",
+      "name": "Assistência Técnica",
+      "emoji": "•",
+      "group": "Tech",
+      "color": 4279528244,
+      "categoryId": "tecnologia",
+      "asset": null,
+      "keywords": [
+        "assistencia tecnica",
+        "conserto de eletrodomestico"
       ]
     }
   ]

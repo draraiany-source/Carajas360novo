@@ -4,6 +4,7 @@ import '../../core/catalog/service_catalog.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/theme/app_colors.dart';
 import '../../shared/widgets/c360_nav.dart';
+import '../../features/home/home_layout.dart';
 import '../../shared/widgets/official_icon.dart';
 
 enum CategoryBoardMode { all, extras }
@@ -115,6 +116,7 @@ class SubcategoryScreen extends StatelessWidget {
                 OfficialIconGrid(
                   items: professions.map(OfficialIconData.profession).toList(),
                   keyPrefix: 'profissao-',
+                  tier: IconTier.subcategory,
                   onTap: (item) => openProfessionList(context, item.id),
                 ),
               ],

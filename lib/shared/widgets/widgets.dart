@@ -310,8 +310,7 @@ class ProvCard extends StatelessWidget {
                                 color: AppColors.secondary)),
                       ]),
                   const SizedBox(height: 2),
-                  if (emblem != null)
-                    SizedBox(width: 88, height: 88, child: emblem)
+                  if (emblem != null) emblem!
                   else
                     Text(role, style: Theme.of(context).textTheme.bodySmall),
                   const SizedBox(height: 6),

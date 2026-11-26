@@ -4,6 +4,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/catalog/service_catalog.dart';
 import '../../core/constants/app_constants.dart';
+import '../../features/home/home_layout.dart';
 import '../../shared/widgets/official_icon.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/utils/chat_nav.dart';
@@ -112,6 +113,8 @@ class FavoritesScreen extends StatelessWidget {
                             label: profession.name,
                             assetPath: profession.asset256,
                             pendingArt: profession.asset == null,
+                            tier: IconTier.list,
+                            caption: true,
                           ),
                     onTap: () => Navigator.pushNamed(
                             context, Routes.requestService,
@@ -640,23 +643,20 @@ class _RequestServiceState extends State<RequestServiceScreen> {
                                     fontWeight: FontWeight.w800,
                                     fontSize: 15))),
                         const SizedBox(width: 12),
-                        SizedBox(
-                          width: 96,
-                          height: 96,
-                          child: OfficialIcon(
-                            label: ServiceCatalog.labelOf(widget.category),
-                            assetPath: ServiceCatalog.professionById(
-                                        widget.category)
-                                    ?.asset256 ??
-                                ServiceCatalog.categoryById(widget.category)
-                                    ?.asset256,
-                            pendingArt: (ServiceCatalog.professionById(
-                                        widget.category)
-                                    ?.asset ??
-                                ServiceCatalog.categoryById(widget.category)
-                                    ?.asset) ==
-                                null,
-                          ),
+                        OfficialIcon(
+                          label: ServiceCatalog.labelOf(widget.category),
+                          assetPath: ServiceCatalog.professionById(
+                                      widget.category)
+                                  ?.asset256 ??
+                              ServiceCatalog.categoryById(widget.category)
+                                  ?.asset256,
+                          pendingArt: (ServiceCatalog.professionById(
+                                      widget.category)
+                                  ?.asset ??
+                              ServiceCatalog.categoryById(widget.category)
+                                  ?.asset) ==
+                              null,
+                          tier: IconTier.subcategory,
                         ),
                       ])),
                   const SizedBox(height: 20),

@@ -26,7 +26,7 @@ A classificação de cada área, sem percentual inventado, está em [AUDITORIA_F
 
 Verde floresta `#146B34`, dourado `#F5C400`, fundo `#F3F6F4` e cartões brancos. Definição em `lib/core/theme/app_colors.dart`. Logomarcas em `assets/logos/`. A personagem fica só em `assets/tia_carajas/`. Poses sem referência visual estão em `pending_poses` do manifesto e não foram desenhadas.
 
-Os ícones oficiais de categoria e profissão estão em WebP (`assets/icons/categories/` e `assets/icons/subcategories/`, 512 px e 256 px). O nome já vai dentro da arte: a interface não escreve o mesmo texto por cima. O catálogo único é `functions/data/catalogo_categorias.json` (o app e as Cloud Functions leem o mesmo arquivo). Os PNG originais ficam em `design/icones_originais/` e não entram no bundle. Máquinas e Equipamentos e Ver Todas não têm arquivo individual: o tile é verde com borda dourada e o nome em texto. Relato em [docs/RELATORIO_ICONES_3D.pdf](docs/RELATORIO_ICONES_3D.pdf).
+Os ícones oficiais de categoria e profissão estão em WebP (`assets/icons/categories/` e `assets/icons/subcategories/`, 512 px e 256 px). O nome já vai dentro da arte. Em lista pequena, quando o nome da arte fica ilegível, aparece uma legenda discreta. O catálogo único é `functions/data/catalogo_categorias.json` (o app e as Cloud Functions leem o mesmo arquivo). Os masters de 1024 px ficam em `design/icones_originais/webp1024/` e não entram no bundle. Máquinas e Equipamentos e Mais Categorias têm arte. Serviços gerais, assistência técnica, costureira, cozinheira e Ver Todas não têm: o cartão é neutro e o nome fica em texto. O atalho visual de Mais Categorias usa `mais_categorias.webp`. Relato em [docs/RELATORIO_ICONES_3D.pdf](docs/RELATORIO_ICONES_3D.pdf).
 
 ## Ambientes
 

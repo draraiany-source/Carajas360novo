@@ -4,13 +4,19 @@ Lista do que impede tratar esta árvore como produção. Nada aqui foi “quase 
 
 ## Ícones oficiais — aguardando arte oficial
 
-- **Máquinas e Equipamentos**: a categoria funciona e aparece na home, no lugar do painel de referência. Não há PNG individual. O tile é verde-esmeralda com borda dourada e o nome em texto. Não foi gerada ilustração nem recorte do painel.
-- **Ver Todas**: mesmo caso. Abre o quadro com todas as categorias de serviço. Sem arte individual.
-- Saúde e Bem-estar e Educação e Cursos têm arte oficial e aparecem em Mais Categorias e em Ver Todas. O painel de referência não reserva um dos dez lugares da home para elas.
-- Grupos sem arte nesta entrega (Pets, Jurídico, Eventos, Tecnologia, Transporte, Drones, Cuidados, Segurança e Portaria, e as profissões fora dos dez arquivos) usam o mesmo tile neutro. Não são ilustrações inventadas.
-- Os PNG originais somam cerca de 42 MB em `design/icones_originais/` e ficam fora do bundle. Não foi usado Git LFS: nenhum arquivo passa de 3 MB. O WebP de produção é que entra no `pubspec`.
-- Jardineiro permanece em Agro e Rural (a home já usava esse id; o grupo legado é Jardim). Técnico em ar-condicionado mantém o id Firestore `ar_condicionado` e a arte `tecnico-ar-condicionado`, sob Máquinas e Equipamentos (grupo legado Equipamentos).
-- Nenhum campo novo foi gravado em `providers` ou `orders`. O id da profissão continua o mesmo. `serralheiro` é id novo, sem documentos antigos. A coleção Firestore `categories` não é a fonte dos ícones.
+A coleção de 1024 px é o master em `design/icones_originais/webp1024/`. Os PNG de 1254 px da rodada anterior saíram para não duplicar peso. Máquinas e Equipamentos e Mais Categorias já têm arquivo.
+
+Ainda sem arte, com cartão discreto e o nome em texto. Não foram inventadas:
+
+- Serviços gerais (`aux_servicos_gerais`)
+- Assistência técnica (`assistencia_tecnica`)
+- Costureira (`costureira`)
+- Cozinheira (`cozinheira`)
+- **Ver Todas**: não há arte própria. A grade usa `mais_categorias.webp` só no atalho Mais Categorias. O texto "Ver todas" do cabeçalho abre o quadro completo, sem um segundo ícone.
+
+Grupos extras sem ilustração de categoria (Pets, Jurídico, Eventos, Tecnologia, Transporte, Drones, Cuidados, Segurança e Portaria) usam o mesmo cartão. Profissões desses grupos que têm WebP mostram a arte.
+
+Nenhum campo novo foi gravado em `providers` ou `orders`. Ids já usados foram preservados. `firebase.json` continua sem bloco `hosting`, então não há header de cache de `/assets` para publicar. iOS segue sem projeto Xcode, como na lista abaixo.
 
 Legenda usada também no PDF: implementada e testada, implementada parcialmente, não implementada, bloqueada por integração externa, aguardando credenciais, reprovada nos testes.
 

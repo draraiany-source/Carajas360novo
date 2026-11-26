@@ -47,15 +47,14 @@ function identify(text) {
 }
 
 function publicCategories() {
-  return catalog.categories
-    .filter((category) => category.kind === 'servico' || category.home)
-    .map((category) => ({
-      id: category.id,
-      name: category.name,
-      pendingArt: category.pendingArt === true,
-      kind: category.kind,
-      home: category.home === true,
-    }));
+  return catalog.categories.map((category) => ({
+    id: category.id,
+    name: category.name,
+    asset: category.asset || null,
+    pendingArt: category.pendingArt === true,
+    kind: category.kind,
+    home: category.home === true,
+  }));
 }
 
 function publicProfessions() {

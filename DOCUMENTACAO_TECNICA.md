@@ -56,7 +56,7 @@ A rota antiga `/ai` aponta direto para `TiaCentralScreen`. O arquivo `lib/featur
 
 Explorar a home, a busca e o perfil público não exige conta. Orçamento, chat que grava e favorito pedem conta. Isso foi ligado nos pontos de entrada principais. Não houve varredura manual de cada botão em aparelho físico.
 
-A grade de categorias da home segue o painel de referência: 5 colunas no desktop quando o tile fica com pelo menos 140 px (`HomeLayout.columnsFor`). No celular estreito são 2 colunas; numa largura intermediária, 3. Abaixo de 720 px o banner empilha os botões e tira o retrato da Tia de cima do texto. O toque abre a subcategoria e, em seguida, a lista de profissionais filtrada pelo id da profissão já usado no Firestore.
+A grade de categorias usa `HomeLayout.columnsFor`: 6 colunas quando a área útil passa de 1180 px, 5 no desktop mais estreito, 4 no tablet, 3 no celular e 2 abaixo de 340 px de viewport. O ícone de categoria fica entre 88 e 104 px no desktop, 72 e 88 no tablet e 64 e 80 no celular. Subcategorias e listas usam faixas menores. A arte não estica até o card e não ganha uma segunda borda dourada. Abaixo de 720 px o banner empilha os botões e o retrato da Tia fica menor para caber no hero. O toque abre a subcategoria e, em seguida, a lista de profissionais filtrada pelo id da profissão já usado no Firestore.
 
 ## 3. Identidade e assets
 
@@ -68,7 +68,7 @@ Cores em `lib/core/theme/app_colors.dart`: primário `#146B34`, dourado `#F5C400
 | `assets/tia_carajas/` | Poses oficiais e `manifest.json` |
 | `assets/icons/categories/` e `assets/icons/subcategories/` | WebP oficial 512 e 256. O bundle de produção não leva os PNG |
 | `functions/data/catalogo_categorias.json` | Catálogo único: id, nome, asset, profissão e categoria pai |
-| `design/icones_originais/` | PNG 1254×1254 fora do pubspec (~42 MB) |
+| `design/icones_originais/webp1024/` | Masters WebP 1024 px, fora do bundle de produção |
 | `assets/fonts/PlusJakartaSans.ttf` | Fonte empacotada (OFL 1.1), sem CDN em runtime |
 | `assets/banners/`, `empty_states/`, `lottie/`, `backgrounds/` | Estados e campanhas referenciados em `AppAssets` |
 | `android/`, `ios/`, `web/` | Ícones de publicação. Cópias idênticas em `assets/icons/png/` não foram repetidas |

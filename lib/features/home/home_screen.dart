@@ -11,6 +11,7 @@ import '../../core/constants/app_constants.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/utils/chat_nav.dart';
 import '../../core/utils/demo_data.dart';
+import 'home_layout.dart';
 import '../../shared/models/models.dart';
 import '../../shared/services/firebase_service.dart';
 import '../../shared/widgets/widgets.dart';
@@ -903,20 +904,18 @@ class _SearchState extends State<SearchScreen> {
   Widget _selectedIcon() {
     final profession = ServiceCatalog.professionById(_cat ?? '');
     final category = ServiceCatalog.categoryById(_cat ?? '');
-    final asset = profession?.asset512 ?? category?.asset512;
+    final asset = profession?.asset256 ?? category?.asset256;
     final label = profession?.name ?? category?.name ?? _cat!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: SizedBox(
-          width: 160,
-          height: 160,
-          child: OfficialIcon(
-            label: label,
-            assetPath: asset,
-            pendingArt: asset == null,
-          ),
+        child: OfficialIcon(
+          label: label,
+          assetPath: asset,
+          pendingArt: asset == null,
+          tier: IconTier.list,
+          caption: true,
         ),
       ),
     );

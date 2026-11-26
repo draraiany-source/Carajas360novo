@@ -1,34 +1,57 @@
-/// Medidas da home e da grade de ícones oficiais.
+/// Medidas compactas da home e dos ícones oficiais.
 ///
-/// Desktop: 5 colunas quando o tile fica com pelo menos 140 px.
-/// Abaixo disso, 3 colunas se a largura permitir e 2 no celular estreito.
+/// A arte já é um card com borda dourada. O ícone fica dentro de uma faixa
+/// por breakpoint e nunca estica até o tamanho da célula.
 abstract final class HomeLayout {
-  static const tileGap = 12.0;
-  static const minDesktopTile = 140.0;
+  static const tileGap = 10.0;
   static const heroStackBreakpoint = 720.0;
 
   static bool stackedHeroButtons(double width) => width < heroStackBreakpoint;
 
-  static bool showHeroPortrait(double width) => width >= heroStackBreakpoint;
+  /// O retrato entra em todas as larguras, menor no celular para caber no hero.
+  static bool showHeroPortrait(double width) => width >= 340;
 
+  static double heroHeight(double width) => width < heroStackBreakpoint ? 196 : 176;
+
+  static double tiaHeroHeight(double width) => width < heroStackBreakpoint ? 72 : 112;
+
+  /// Desktop 5 ou 6, tablet 4, celular 3 e 2 abaixo de 340 px.
   static int columnsFor(double width) {
-    if (width <= 0) return 2;
-    if (_tile(width, 5) >= minDesktopTile) return 5;
-    if (width >= 520) return 3;
-    return 2;
+    if (width < 340) return 2;
+    if (width < 600) return 3;
+    if (width < 1024) return 4;
+    if (width >= 1180) return 6;
+    return 5;
   }
 
-  static double tileExtent(double width) {
-    final columns = columnsFor(width);
-    return _tile(width, columns);
+  static double iconSize(IconTier tier, double width) {
+    final (min, max) = _range(tier, width);
+    return max;
   }
 
-  /// Largura de um tile na área útil informada.
-  static double estimatedTileWidth(double contentWidth) =>
-      tileExtent(contentWidth);
+  static (double, double) _range(IconTier tier, double width) {
+    final desktop = width >= 1024;
+    final tablet = width >= 600 && width < 1024;
+    switch (tier) {
+      case IconTier.category:
+        if (desktop) return (88, 104);
+        if (tablet) return (72, 88);
+        return (64, 80);
+      case IconTier.subcategory:
+        if (desktop) return (64, 80);
+        if (tablet) return (56, 72);
+        return (48, 64);
+      case IconTier.list:
+        if (desktop) return (40, 48);
+        if (tablet) return (40, 44);
+        return (36, 44);
+    }
+  }
 
-  static double _tile(double width, int columns) {
-    final spacing = tileGap * (columns - 1);
-    return (width - spacing) / columns;
+  static bool iconInRange(IconTier tier, double width, double size) {
+    final (min, max) = _range(tier, width);
+    return size >= min - 0.1 && size <= max + 0.1;
   }
 }
+
+enum IconTier { category, subcategory, list }

@@ -277,7 +277,6 @@ class C360PageBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 118,
       decoration: BoxDecoration(
         gradient: AppGradients.hero,
         borderRadius: BorderRadius.circular(22),
@@ -286,21 +285,21 @@ class C360PageBanner extends StatelessWidget {
       child: Stack(children: [
         const Positioned.fill(child: CustomPaint(painter: C360LandscapePainter())),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
           child: Row(children: [
             Container(
-              width: 48,
-              height: 48,
+              width: 44,
+              height: 44,
               decoration: BoxDecoration(
                 color: AppColors.yellow,
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(icon, color: AppColors.sidebar, size: 26),
+              child: Icon(icon, color: AppColors.sidebar, size: 22),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title,
@@ -308,17 +307,19 @@ class C360PageBanner extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 22,
+                          fontSize: 20,
+                          height: 1.15,
                           fontWeight: FontWeight.w800,
-                          letterSpacing: -0.4)),
-                  const SizedBox(height: 4),
+                          letterSpacing: -0.3)),
+                  const SizedBox(height: 2),
                   Text(subtitle,
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.88),
+                      style: const TextStyle(
+                          color: Color(0xE0FFFFFF),
                           fontSize: 13,
-                          height: 1.3)),
+                          height: 1.2,
+                          fontWeight: FontWeight.w500)),
                 ],
               ),
             ),

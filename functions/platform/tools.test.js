@@ -57,7 +57,8 @@ test('consultarCategorias usa o catálogo e reconhece ar-condicionado', async ()
   const pedreiro = result.data.professions.find((item) => item.id === 'pedreiro');
   assert.equal(pedreiro.categoryId, 'construcao-e-reforma');
   const maquinas = result.data.categories.find((item) => item.id === 'maquinas-e-equipamentos');
-  assert.equal(maquinas.pendingArt, true);
+  assert.equal(maquinas.pendingArt, false);
+  assert.equal(maquinas.asset, 'maquinas_equipamentos');
   const verTodas = result.data.categories.find((item) => item.id === 'ver-todas');
   assert.equal(verTodas.pendingArt, true);
 });

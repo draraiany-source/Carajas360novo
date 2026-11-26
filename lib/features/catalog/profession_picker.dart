@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/catalog/service_catalog.dart';
 import '../../core/theme/app_colors.dart';
+import '../../features/home/home_layout.dart';
 import '../../shared/widgets/official_icon.dart';
 
 /// Seleção de profissão usada no cadastro. O id gravado é o da profissão.
@@ -39,6 +40,7 @@ class ProfessionPicker extends StatelessWidget {
                 .toList(),
             selected: selected,
             keyPrefix: 'profissao-',
+            tier: IconTier.subcategory,
             onTap: (item) => onToggle(item.id),
           ),
         ],

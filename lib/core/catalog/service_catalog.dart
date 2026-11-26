@@ -187,7 +187,7 @@ abstract final class ServiceCatalog {
     return list;
   }
 
-  /// Categorias que a home não mostra: Saúde, Educação e os grupos sem arte.
+  /// Grupos de serviço fora da home. Saúde e Educação entram na home.
   static List<CatalogCategory> get extraCategories =>
       categories.where((c) => c.kind == 'servico' && !c.home).toList();
 

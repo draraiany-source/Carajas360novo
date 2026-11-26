@@ -429,6 +429,9 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uid = c360Uid();
+    final barWidth = MediaQuery.sizeOf(context).width;
+    final showCityLabel = barWidth >= 520;
+    final showAccountLabel = barWidth >= 900;
     return Material(
       color: AppColors.white,
       elevation: 0,
@@ -504,14 +507,16 @@ class _TopBar extends StatelessWidget {
                     const Icon(Icons.location_on_rounded,
                         color: AppColors.primary, size: 18),
                     const SizedBox(width: 4),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 180),
-                      child: Text('$city - PA',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 13)),
-                    ),
+                    if (showCityLabel)
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                            maxWidth: barWidth < 900 ? 88 : 160),
+                        child: Text('$city - PA',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 13)),
+                      ),
                     const Icon(Icons.expand_more_rounded, size: 18),
                   ]),
                 ),
@@ -525,7 +530,14 @@ class _TopBar extends StatelessWidget {
               icon: const Icon(Icons.chat_bubble_outline_rounded),
             ),
             const SizedBox(width: 4),
-            _AccountChip(uid: uid, onTap: onAccount),
+            if (showAccountLabel)
+              _AccountChip(uid: uid, onTap: onAccount)
+            else
+              IconButton(
+                tooltip: 'Entrar',
+                onPressed: onAccount,
+                icon: const Icon(Icons.person_outline_rounded),
+              ),
           ]),
         ),
       ),

@@ -108,9 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       page: const TiaCentralScreen(),
                     ),
                   ),
-                  const SizedBox(height: 22),
+                  const SizedBox(height: 12),
                   _categoryGrid(),
-                  const SizedBox(height: 22),
+                  const SizedBox(height: 12),
                   if (wide)
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
         )
       else
         SizedBox(
-          height: 320,
+          height: 210,
           child: ValueListenableBuilder<String>(
             valueListenable: RegionController.instance.city,
             builder: (_, city, __) => ListView.separated(
@@ -231,14 +231,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   role: role,
                   emblem: profession == null
                       ? null
-                      : SizedBox(
-                          width: 72,
-                          height: 72,
-                          child: OfficialIcon(
-                            label: profession.name,
-                            assetPath: profession.asset256,
-                            pendingArt: profession.asset == null,
-                          ),
+                      : OfficialIcon(
+                          label: profession.name,
+                          assetPath: profession.asset256,
+                          pendingArt: profession.asset == null,
+                          tier: IconTier.list,
+                          caption: true,
                         ),
                   rating: provider.rating,
                   reviews: provider.totalReviews,
@@ -403,10 +401,11 @@ class _Hero extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       final narrow = HomeLayout.stackedHeroButtons(constraints.maxWidth);
+      final portrait = HomeLayout.tiaHeroHeight(constraints.maxWidth);
       return ClipRRect(
       borderRadius: BorderRadius.circular(22),
       child: SizedBox(
-        height: narrow ? 300 : 236,
+        height: HomeLayout.heroHeight(constraints.maxWidth),
         child: Stack(children: [
           PageView(
             controller: controller,
@@ -427,23 +426,24 @@ class _Hero extends StatelessWidget {
             ],
           ),
           if (HomeLayout.showHeroPortrait(constraints.maxWidth))
-            const Positioned(
-              right: 12,
+            Positioned(
+              right: 8,
               top: 8,
-              child: TiaPortrait(pose: 'apresentando', height: 150),
+              child: TiaPortrait(pose: 'apresentando', height: portrait),
             ),
           Positioned(
             left: 16,
-            right: narrow ? 16 : 170,
-            bottom: 14,
+            right: narrow ? 78 : 130,
+            bottom: 10,
             child: narrow
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      _searchButton(onSearch),
-                      const SizedBox(height: 8),
+                      _searchButton(onSearch, compact: true),
+                      const SizedBox(height: 6),
                       TiaTalkButton(
                         label: 'Falar com a Tia',
+                        compact: true,
                         onPressed: onTia,
                       ),
                     ],
@@ -483,13 +483,16 @@ class _Hero extends StatelessWidget {
     });
   }
 
-  Widget _searchButton(VoidCallback onSearch) {
+  Widget _searchButton(VoidCallback onSearch, {bool compact = false}) {
     return ElevatedButton.icon(
       onPressed: onSearch,
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.yellow,
         foregroundColor: AppColors.sidebar,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        visualDensity: compact ? VisualDensity.compact : VisualDensity.standard,
+        tapTargetSize: compact ? MaterialTapTargetSize.shrinkWrap : null,
+        minimumSize: compact ? const Size(0, 36) : null,
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: compact ? 8 : 12),
       ),
       icon: const Icon(Icons.search_rounded, size: 18),
       label: const Text('Buscar serviços'),
@@ -526,7 +529,7 @@ class _HeroSlide extends StatelessWidget {
       child: Stack(children: [
         const Positioned.fill(child: CustomPaint(painter: C360LandscapePainter())),
         Padding(
-          padding: EdgeInsets.fromLTRB(22, compact ? 36 : 22, compact ? 22 : 150, 88),
+          padding: EdgeInsets.fromLTRB(18, compact ? 12 : 16, compact ? 78 : 120, compact ? 84 : 56),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -544,22 +547,24 @@ class _HeroSlide extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.6)),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: compact ? 6 : 8),
               Text(title,
-                  maxLines: 3,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: compact ? 22 : 26,
+                      fontSize: compact ? 18 : 26,
                       fontWeight: FontWeight.w800,
-                      height: 1.15,
+                      height: 1.12,
                       letterSpacing: -0.4)),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               Text(subtitle,
+                  maxLines: compact ? 1 : 2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.9),
-                      fontSize: 14,
-                      height: 1.35)),
+                      fontSize: compact ? 12 : 14,
+                      height: 1.25)),
             ],
           ),
         ),

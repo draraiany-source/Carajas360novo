@@ -599,7 +599,13 @@ class TiaFloatingHelp extends StatelessWidget {
 class TiaTalkButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
-  const TiaTalkButton({super.key, required this.label, required this.onPressed});
+  final bool compact;
+  const TiaTalkButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    this.compact = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -607,10 +613,14 @@ class TiaTalkButton extends StatelessWidget {
       style: FilledButton.styleFrom(
         backgroundColor: AppColors.yellow,
         foregroundColor: AppColors.sidebar,
+        visualDensity: compact ? VisualDensity.compact : VisualDensity.standard,
+        tapTargetSize: compact ? MaterialTapTargetSize.shrinkWrap : null,
+        minimumSize: compact ? const Size(0, 36) : null,
+        padding: compact ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8) : null,
       ),
       onPressed: onPressed,
       icon: const Icon(Icons.mic_rounded, size: 18),
-      label: Text(label, maxLines: 2, overflow: TextOverflow.ellipsis),
+      label: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
     );
   }
 }

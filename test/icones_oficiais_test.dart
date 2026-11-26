@@ -40,23 +40,30 @@ void main() {
     expect(ServiceCatalog.professionById('ar_condicionado')!.categoryId,
         'maquinas-e-equipamentos');
     expect(ServiceCatalog.professionById('ar_condicionado')!.asset,
-        'tecnico-ar-condicionado');
+        'tecnico_ar_condicionado');
+    expect(ServiceCatalog.professionById('manicure')!.asset, 'manicure_pedicure');
+    expect(ServiceCatalog.professionById('costureira')!.asset, isNull);
+    expect(ServiceCatalog.professionById('cozinheira')!.asset, isNull);
+    expect(ServiceCatalog.professionById('assistencia_tecnica')!.asset, isNull);
     expect(Categories.byId('eletricista')!.group, 'Casa');
     expect(Categories.byId('odontologia')!.name, 'Odontologia');
     final ids = Categories.all.map((c) => c.id).toList();
     expect(ids.toSet().length, ids.length);
   });
 
-  test('Máquinas e Ver Todas aguardam arte e não apontam arquivo', () {
+  test('Máquinas tem arte e Ver Todas continua sem arquivo', () {
     final maquinas = ServiceCatalog.categoryById('maquinas-e-equipamentos')!;
     final verTodas = ServiceCatalog.categoryById('ver-todas')!;
-    expect(maquinas.pendingArt, isTrue);
-    expect(maquinas.asset, isNull);
+    expect(maquinas.pendingArt, isFalse);
+    expect(maquinas.asset, 'maquinas_equipamentos');
+    expect(maquinas.home, isTrue);
     expect(verTodas.pendingArt, isTrue);
     expect(verTodas.asset, isNull);
+    expect(verTodas.home, isFalse);
     expect(ServiceCatalog.categoryById('saude-e-bem-estar')!.asset,
-        'saude-e-bem-estar');
-    expect(ServiceCatalog.categoryById('educacao-e-cursos')!.home, isFalse);
+        'saude_bem_estar');
+    expect(ServiceCatalog.categoryById('educacao-e-cursos')!.home, isTrue);
+    expect(ServiceCatalog.categoryById('mais-categorias')!.asset, 'mais_categorias');
   });
 
   test('Tia reconhece ar-condicionado e eletricista no catálogo', () {
@@ -146,7 +153,7 @@ void main() {
     }
     final withArt =
         ServiceCatalog.professions.where((p) => p.asset != null).toList();
-    expect(withArt.length, 10);
+    expect(withArt.length, 36);
     for (final profession in withArt) {
       await expectAsset(profession.asset512);
       await expectAsset(profession.asset256);
@@ -337,7 +344,7 @@ void main() {
     ));
     await tester.pumpAndSettle();
     expect(find.bySemanticsLabel('Técnico em Ar-Condicionado'), findsOneWidget);
-    expect(find.text('Técnico em Ar-Condicionado'), findsNothing);
+    expect(find.text('Técnico em Ar-Condicionado'), findsOneWidget);
     await tester.tap(find.byKey(const Key('tia-ver-profissionais')));
     await tester.pumpAndSettle();
     expect(opened, contains('ar_condicionado'));

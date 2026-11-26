@@ -11,6 +11,7 @@ import '../../core/constants/app_constants.dart';
 import '../../shared/models/models.dart';
 import '../../shared/services/firebase_service.dart';
 import '../../core/catalog/service_catalog.dart';
+import '../../features/home/home_layout.dart';
 import '../../shared/widgets/official_icon.dart';
 import '../../shared/widgets/widgets.dart';
 import '../tia/admin_ai_panel.dart';
@@ -579,7 +580,7 @@ class _CategoriesTab extends StatelessWidget {
                 return const Padding(
                   padding: EdgeInsets.only(bottom: 12),
                   child: Text(
-                    'Catálogo oficial do aplicativo. O Firestore continua gravando o id da profissão. Máquinas e Equipamentos e Ver Todas aguardam arte oficial.',
+                    'Catálogo oficial do aplicativo. O Firestore continua gravando o id da profissão. Serviços gerais, assistência técnica, costureira, cozinheira e Ver Todas seguem sem arte.',
                     style: TextStyle(color: AppColors.textMedium, height: 1.35),
                   ),
                 );
@@ -593,14 +594,11 @@ class _CategoriesTab extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 8),
                   decoration: AppDecorations.card(r: 14),
                   child: ListTile(
-                    leading: SizedBox(
-                      width: 64,
-                      height: 64,
-                      child: OfficialIcon(
-                        label: c.name,
-                        assetPath: profession?.asset256,
-                        pendingArt: profession?.asset == null,
-                      ),
+                    leading: OfficialIcon(
+                      label: c.name,
+                      assetPath: profession?.asset256,
+                      pendingArt: profession?.asset == null,
+                      tier: IconTier.list,
                     ),
                     title: profession?.asset != null
                         ? Text(profession!.id,

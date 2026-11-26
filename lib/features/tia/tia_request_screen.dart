@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../core/catalog/service_catalog.dart';
 import '../../core/constants/app_constants.dart';
+import '../../features/home/home_layout.dart';
 import '../../shared/widgets/official_icon.dart';
 import '../../core/theme/app_colors.dart';
 import '../../shared/models/models.dart';
@@ -222,14 +223,11 @@ class _TiaRequestScreenState extends State<TiaRequestScreen> {
       if (label != null)
         Align(
           alignment: Alignment.centerLeft,
-          child: SizedBox(
-            width: 160,
-            height: 160,
-            child: OfficialIcon(
-              label: label,
-              assetPath: asset,
-              pendingArt: asset == null,
-            ),
+          child: OfficialIcon(
+            label: label,
+            assetPath: asset,
+            pendingArt: asset == null,
+            tier: IconTier.subcategory,
           ),
         ),
       DropdownButtonFormField<String>(
