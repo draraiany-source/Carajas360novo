@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../core/catalog/service_catalog.dart';
+import '../../core/constants/runtime_config.dart';
 import '../../core/theme/app_colors.dart';
+import '../catalog/category_browse.dart';
+import '../catalog/provider_filters.dart';
+import '../../shared/widgets/official_icon.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/utils/chat_nav.dart';
 import '../../core/utils/demo_data.dart';
+import 'home_layout.dart';
 import '../../shared/models/models.dart';
 import '../../shared/services/firebase_service.dart';
 import '../../shared/widgets/widgets.dart';
@@ -268,6 +274,28 @@ class _ServicesHubState extends State<ServicesHubScreen> {
           )),
           SliverToBoxAdapter(
               child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SecHeader(title: 'Categorias de Serviços'),
+                  const SizedBox(height: 12),
+                  OfficialIconGrid(
+                    items: ServiceCatalog.homeCategories
+                        .map(OfficialIconData.category)
+                        .toList(),
+                    keyPrefix: 'hub-categoria-',
+                    onTap: (item) {
+                      final category = ServiceCatalog.categoryById(item.id);
+                      if (category != null) {
+                        openCatalogCategory(context, category);
+                      }
+                    },
+                  ),
+                ]),
+          )),
+          SliverToBoxAdapter(
+              child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -504,11 +532,15 @@ class SearchScreen extends StatefulWidget {
   final String? initialCategory;
   final bool embedded;
   final SearchMode mode;
+
+  /// Lista injetada em teste. Em produção fica nula e a tela lê o Firestore.
+  final List<ProviderModel>? seedProviders;
   const SearchScreen({
     super.key,
     this.initialCategory,
     this.embedded = false,
     this.mode = SearchMode.explore,
+    this.seedProviders,
   });
   @override
   State<SearchScreen> createState() => _SearchState();
@@ -657,34 +689,31 @@ class _SearchState extends State<SearchScreen> {
       if (!_explore)
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
-          child: Row(children: [
-            Expanded(
-              child: TextField(
-                controller: _ctrl,
-                onChanged: (v) => setState(() {
-                  _q = v;
-                  _page = 0;
-                }),
-                decoration: const InputDecoration(
-                  hintText: 'Buscar profissional, serviço ou empresa...',
-                  prefixIcon: Icon(Icons.search_rounded),
-                ),
+          child: LayoutBuilder(builder: (context, constraints) {
+            final narrow = constraints.maxWidth < 640;
+            final field = TextField(
+              controller: _ctrl,
+              onChanged: (v) => setState(() {
+                _q = v;
+                _page = 0;
+              }),
+              decoration: const InputDecoration(
+                hintText: 'Buscar profissional, serviço ou empresa...',
+                prefixIcon: Icon(Icons.search_rounded),
               ),
-            ),
-            const SizedBox(width: 8),
-            OutlinedButton.icon(
+            );
+            final mapButton = IconButton(
+              tooltip: 'Ver no Mapa',
               onPressed: () => Navigator.pushNamed(context, Routes.gps,
                   arguments: {'ctx': 'servico'}),
-              icon: const Icon(Icons.map_outlined, size: 18),
-              label: const Text('Ver no Mapa'),
-            ),
-            const SizedBox(width: 8),
-            OutlinedButton.icon(
+              icon: const Icon(Icons.map_outlined),
+            );
+            final filterButton = IconButton(
+              tooltip: 'Filtros',
               onPressed: _filters,
-              icon: const Icon(Icons.tune_rounded, size: 18),
-              label: const Text('Filtros'),
-            ),
-            IconButton(
+              icon: const Icon(Icons.tune_rounded),
+            );
+            final micButton = IconButton(
               tooltip: 'Falar a busca',
               onPressed: () => c360Open(
                 context,
@@ -692,8 +721,31 @@ class _SearchState extends State<SearchScreen> {
                 page: TiaCentralScreen(seed: _q.isEmpty ? null : _q),
               ),
               icon: const Icon(Icons.mic_rounded, color: AppColors.primary),
-            ),
-          ]),
+            );
+            if (narrow) {
+              return Column(children: [
+                field,
+                Row(children: [mapButton, filterButton, micButton]),
+              ]);
+            }
+            return Row(children: [
+              Expanded(child: field),
+              const SizedBox(width: 8),
+              OutlinedButton.icon(
+                onPressed: () => Navigator.pushNamed(context, Routes.gps,
+                    arguments: {'ctx': 'servico'}),
+                icon: const Icon(Icons.map_outlined, size: 18),
+                label: const Text('Ver no Mapa'),
+              ),
+              const SizedBox(width: 8),
+              OutlinedButton.icon(
+                onPressed: _filters,
+                icon: const Icon(Icons.tune_rounded, size: 18),
+                label: const Text('Filtros'),
+              ),
+              micButton,
+            ]);
+          }),
         )
       else
         Padding(
@@ -729,6 +781,22 @@ class _SearchState extends State<SearchScreen> {
               icon: const Icon(Icons.mic_rounded, color: AppColors.primary),
             ),
           ]),
+        ),
+      if (_cat != null) _selectedIcon(),
+      if (_explore)
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+          child: OfficialIconGrid(
+            items: ServiceCatalog.homeCategories
+                .map(OfficialIconData.category)
+                .toList(),
+            keyPrefix: 'explorar-',
+            maxVisibleRows: MediaQuery.sizeOf(context).width >= 900 ? null : 2,
+            onTap: (item) {
+              final category = ServiceCatalog.categoryById(item.id);
+              if (category != null) openCatalogCategory(context, category);
+            },
+          ),
         ),
       const SizedBox(height: 10),
       SizedBox(
@@ -776,8 +844,15 @@ class _SearchState extends State<SearchScreen> {
           ]),
         ),
       Expanded(
-        child: StreamBuilder<List<ProviderModel>>(
-          stream: c360Stream(() => FS.providersStream(category: _cat, limit: 40)),
+        child: widget.seedProviders != null
+            ? _resultList(widget.seedProviders!, demo: false)
+            : StreamBuilder<List<ProviderModel>>(
+          stream: c360Stream(() => FS.providersStream(
+                category: ServiceCatalog.professionById(_cat ?? '') != null
+                    ? _cat
+                    : null,
+                limit: 40,
+              )),
           builder: (context, snap) {
             final waiting = snap.connectionState == ConnectionState.waiting &&
                 !snap.hasData;
@@ -787,60 +862,112 @@ class _SearchState extends State<SearchScreen> {
                   itemCount: 4,
                   itemBuilder: (_, __) => const SkeletonCard());
             }
-            if (snap.hasError || snap.data == null) {
+            if (snap.hasError) {
               return const EmptyState(
                   emoji: '🔍',
                   title: 'Não foi possível carregar',
                   subtitle: 'Verifique a conexão e tente de novo.');
             }
-            var list = snap.data ?? [];
-            final city = RegionController.instance.city.value;
-            if (_q.isNotEmpty) {
-              final q = _q.toLowerCase();
-              list = list
-                  .where((p) =>
-                      p.name.toLowerCase().contains(q) ||
-                      p.categories.any((c) => c.toLowerCase().contains(q)) ||
-                      (p.bio ?? '').toLowerCase().contains(q))
-                  .toList();
-            }
-            if (_onlineOnly) {
-              list = list.where((p) => p.modalities.contains('online')).toList();
-            }
-            if (_verifiedOnly) {
-              list = list.where((p) => p.verified).toList();
-            }
-            if (_availableToday) {
-              list = list
-                  .where((p) => p.availableToday || p.availabilitySlots.isNotEmpty)
-                  .toList();
-            }
-            if (_cityOnly) {
-              list = list
-                  .where((p) => (p.city ?? '').toLowerCase() == city.toLowerCase())
-                  .toList();
-            }
-            list = [...list];
-            if (_sort == 'reviews') {
-              list.sort((a, b) => b.totalReviews.compareTo(a.totalReviews));
-            } else if (_sort == 'price_asc') {
-              list.sort((a, b) => (a.minPrice ?? double.infinity)
-                  .compareTo(b.minPrice ?? double.infinity));
-            } else {
-              list.sort((a, b) => b.rating.compareTo(a.rating));
-            }
-            if (list.isEmpty) {
-              return const EmptyState(
-                  emoji: '🔍',
-                  title: 'Nenhum resultado',
-                  subtitle: 'Tente outros filtros ou palavras-chave',
-                  asset: AppAssets.estadoNenhumResultado);
-            }
-            final pages = (list.length / _pageSize).ceil();
-            final safePage = _page.clamp(0, pages - 1).toInt();
-            final slice = list.skip(safePage * _pageSize).take(_pageSize).toList();
-            return Column(children: [
-              Padding(
+            final loaded = snap.data ?? <ProviderModel>[];
+            final demo = loaded.isEmpty && RuntimeConfig.showLabeledDemo;
+            final source = demo
+                ? DemoCatalog.providers
+                    .where((p) => providerMatchesCategory(p, _cat))
+                    .toList()
+                : loaded;
+            return _resultList(source, demo: demo);
+          },
+        ),
+      ),
+    ]);
+
+    if (widget.embedded) {
+      return ColoredBox(
+        key: Key('lista-${_cat ?? 'todos'}'),
+        color: AppColors.background,
+        child: body,
+      );
+    }
+    return Scaffold(
+      key: Key('lista-${_cat ?? 'todos'}'),
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        foregroundColor: AppColors.textDark,
+        leading: BackButton(onPressed: () => c360Pop(context)),
+        title: Text(_explore ? 'Explorar Serviços' : 'Profissionais'),
+      ),
+      body: body,
+    );
+  }
+
+  Widget _selectedIcon() {
+    final profession = ServiceCatalog.professionById(_cat ?? '');
+    final category = ServiceCatalog.categoryById(_cat ?? '');
+    final asset = profession?.asset256 ?? category?.asset256;
+    final label = profession?.name ?? category?.name ?? _cat!;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: OfficialIcon(
+          label: label,
+          assetPath: asset,
+          pendingArt: asset == null,
+          tier: IconTier.list,
+          caption: true,
+        ),
+      ),
+    );
+  }
+
+  Widget _resultList(List<ProviderModel> source, {required bool demo}) {
+    final city = RegionController.instance.city.value;
+    final list = applyProviderFilters(
+      source: source,
+      query: _q,
+      categoryId: _cat,
+      onlineOnly: _onlineOnly,
+      verifiedOnly: _verifiedOnly,
+      cityOnly: _cityOnly,
+      availableToday: _availableToday,
+      city: city,
+      sort: _sort,
+    );
+    if (list.isEmpty) {
+      final bare = _q.isEmpty &&
+          !_onlineOnly &&
+          !_verifiedOnly &&
+          !_cityOnly &&
+          !_availableToday;
+      if (_cat != null && bare) {
+        return const EmptyState(
+          emoji: '📭',
+          title: 'Ainda não há profissionais cadastrados nesta categoria',
+          subtitle:
+              'Quando alguém se cadastrar nesta profissão, a lista aparece aqui.',
+        );
+      }
+      return const EmptyState(
+          emoji: '🔍',
+          title: 'Nenhum resultado',
+          subtitle: 'Tente outros filtros ou palavras-chave',
+          asset: AppAssets.estadoNenhumResultado);
+    }
+    final pages = (list.length / _pageSize).ceil();
+    final safePage = _page.clamp(0, pages - 1).toInt();
+    final slice = list.skip(safePage * _pageSize).take(_pageSize).toList();
+    return Column(children: [
+      if (demo)
+        const Padding(
+          padding: EdgeInsets.fromLTRB(20, 8, 20, 0),
+          child: Text(
+            'Demonstração · estes cartões não são profissionais cadastrados.',
+            style: TextStyle(
+                fontWeight: FontWeight.w700, color: Color(0xFF7A5B00)),
+          ),
+        ),
+      Padding(
                 padding: const EdgeInsets.fromLTRB(20, 12, 12, 4),
                 child: Row(children: [
                   Expanded(
@@ -980,24 +1107,7 @@ class _SearchState extends State<SearchScreen> {
                     ],
                   ),
                 ),
-            ]);
-          },
-        ),
-      ),
     ]);
-
-    if (widget.embedded) {
-      return ColoredBox(color: AppColors.background, child: body);
-    }
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        foregroundColor: AppColors.textDark,
-        title: Text(_explore ? 'Explorar Serviços' : 'Profissionais'),
-      ),
-      body: body,
-    );
   }
 
   List<Widget> _exploreChips() {
@@ -1011,13 +1121,13 @@ class _SearchState extends State<SearchScreen> {
           _page = 0;
         }),
       ),
-      for (final c in C360Categories.home.where((c) => c.categoryId != null))
+      for (final profession
+          in ServiceCatalog.professions.where((p) => p.asset != null))
         C360FilterChip(
-          label: c.label,
-          icon: c.icon,
-          selected: _cat == c.categoryId,
+          label: profession.name,
+          selected: _cat == profession.id,
           onTap: () => setState(() {
-            _cat = _cat == c.categoryId ? null : c.categoryId;
+            _cat = _cat == profession.id ? null : profession.id;
             _page = 0;
           }),
         ),

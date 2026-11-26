@@ -10,6 +10,9 @@ import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
 import '../../shared/models/models.dart';
 import '../../shared/services/firebase_service.dart';
+import '../../core/catalog/service_catalog.dart';
+import '../../features/home/home_layout.dart';
+import '../../shared/widgets/official_icon.dart';
 import '../../shared/widgets/widgets.dart';
 import '../tia/admin_ai_panel.dart';
 
@@ -571,26 +574,42 @@ class _CategoriesTab extends StatelessWidget {
             child: const Icon(Icons.add, color: Colors.white)),
         body: ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: Categories.all.length,
+            itemCount: Categories.all.length + 1,
             itemBuilder: (_, i) {
-              final c = Categories.all[i];
+              if (i == 0) {
+                return const Padding(
+                  padding: EdgeInsets.only(bottom: 12),
+                  child: Text(
+                    'Catálogo oficial do aplicativo. O Firestore continua gravando o id da profissão. Serviços gerais, assistência técnica, costureira, cozinheira e Ver Todas seguem sem arte.',
+                    style: TextStyle(color: AppColors.textMedium, height: 1.35),
+                  ),
+                );
+              }
+              final c = Categories.all[i - 1];
+              final profession = ServiceCatalog.professionById(c.id);
+              final parent = profession == null
+                  ? null
+                  : ServiceCatalog.categoryById(profession.categoryId);
               return Container(
                   margin: const EdgeInsets.only(bottom: 8),
                   decoration: AppDecorations.card(r: 14),
                   child: ListTile(
-                    leading: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: c.color.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(12)),
-                        alignment: Alignment.center,
-                        child: Text(c.emoji,
-                            style: const TextStyle(fontSize: 20))),
-                    title: Text(c.name,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w700, fontSize: 14)),
-                    subtitle: Text(c.group,
+                    leading: OfficialIcon(
+                      label: c.name,
+                      assetPath: profession?.asset256,
+                      pendingArt: profession?.asset == null,
+                      tier: IconTier.list,
+                    ),
+                    title: profession?.asset != null
+                        ? Text(profession!.id,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 13))
+                        : Text(c.name,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 14)),
+                    subtitle: Text(
+                        '${parent?.name ?? c.group}'
+                        '${parent?.pendingArt == true ? ' · aguardando arte oficial' : ''}',
                         style: const TextStyle(
                             fontSize: 11, color: AppColors.textLight)),
                     trailing: Row(mainAxisSize: MainAxisSize.min, children: [

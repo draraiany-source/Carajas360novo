@@ -75,8 +75,15 @@ async function buscarProfissionais(data, ctx) {
   return ok(result, result.note || 'Busca concluída.');
 }
 
-async function consultarCategorias() {
-  return ok({ categories: aiTools.CATEGORIES, specialties: aiTools.SPECIALTIES });
+async function consultarCategorias(data) {
+  const catalogo = require('./catalogo');
+  const query = clip(data && data.query, 200);
+  return ok({
+    categories: catalogo.publicCategories(),
+    professions: catalogo.publicProfessions(),
+    specialties: aiTools.SPECIALTIES,
+    match: query ? catalogo.identify(query) : null,
+  });
 }
 
 async function consultarPerfilProfissional(data, ctx) {

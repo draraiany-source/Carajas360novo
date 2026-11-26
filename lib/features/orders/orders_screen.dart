@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import '../../core/auth/access_control.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/catalog/service_catalog.dart';
 import '../../core/constants/app_constants.dart';
+import '../../features/home/home_layout.dart';
+import '../../shared/widgets/official_icon.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/utils/chat_nav.dart';
 import '../../core/utils/demo_data.dart';
@@ -71,10 +74,13 @@ class FavoritesScreen extends StatelessWidget {
               itemCount: favs.length,
               itemBuilder: (_, i) {
                 final p = favs[i];
-                final catName = p.categories.isNotEmpty
-                    ? (Categories.byId(p.categories.first)?.name ??
-                        p.categories.first)
-                    : 'Profissional';
+                final profession = p.categories.isNotEmpty
+                    ? ServiceCatalog.professionById(p.categories.first)
+                    : null;
+                final catName = profession?.name ??
+                    (p.categories.isNotEmpty
+                        ? p.categories.first
+                        : 'Profissional');
                 return Dismissible(
                   key: Key(p.id),
                   direction: DismissDirection.endToStart,
@@ -101,6 +107,15 @@ class FavoritesScreen extends StatelessWidget {
                     isOnline: p.modalities.contains('online'),
                     photo: p.photoUrl,
                     providerId: p.id,
+                    emblem: profession == null
+                        ? null
+                        : OfficialIcon(
+                            label: profession.name,
+                            assetPath: profession.asset256,
+                            pendingArt: profession.asset == null,
+                            tier: IconTier.list,
+                            caption: true,
+                          ),
                     onTap: () => Navigator.pushNamed(
                             context, Routes.requestService,
                             arguments: {
@@ -623,20 +638,26 @@ class _RequestServiceState extends State<RequestServiceScreen> {
                             r: 14),
                         const SizedBox(width: 12),
                         Expanded(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                              Text(widget.providerName,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 15)),
-                              Text(
-                                  Categories.byId(widget.category)?.name ??
-                                      widget.category,
-                                  style: const TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.textLight)),
-                            ])),
+                            child: Text(widget.providerName,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 15))),
+                        const SizedBox(width: 12),
+                        OfficialIcon(
+                          label: ServiceCatalog.labelOf(widget.category),
+                          assetPath: ServiceCatalog.professionById(
+                                      widget.category)
+                                  ?.asset256 ??
+                              ServiceCatalog.categoryById(widget.category)
+                                  ?.asset256,
+                          pendingArt: (ServiceCatalog.professionById(
+                                      widget.category)
+                                  ?.asset ??
+                              ServiceCatalog.categoryById(widget.category)
+                                  ?.asset) ==
+                              null,
+                          tier: IconTier.subcategory,
+                        ),
                       ])),
                   const SizedBox(height: 20),
                   TextFormField(

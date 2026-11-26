@@ -1,50 +1,48 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/auth/access_control.dart';
+import '../../core/catalog/service_catalog.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/modules/platform_modules.dart';
 import '../../core/theme/app_colors.dart';
+import 'official_icon.dart';
 import '../../core/theme/app_theme.dart';
 import '../models/models.dart';
 import '../services/firebase_service.dart';
 import 'c360_nav.dart';
 
-/// Agrupamento visual das categorias da home e de Explorar Serviços.
+/// Atalho da home. Os dados vêm do catálogo oficial.
 class C360Category {
   final String label;
   final IconData icon;
   final String? categoryId;
   final String? route;
   final String? iconAsset;
-  const C360Category(this.label, this.icon,
-      {this.categoryId, this.route, this.iconAsset});
+  final String catalogId;
+  final bool pendingArt;
+  const C360Category(
+    this.label,
+    this.icon, {
+    this.categoryId,
+    this.route,
+    this.iconAsset,
+    this.catalogId = '',
+    this.pendingArt = false,
+  });
 }
 
 abstract class C360Categories {
-  static const home = <C360Category>[
-    C360Category('Construção e Reforma', Icons.construction_rounded,
-        categoryId: 'pedreiro', iconAsset: 'assets/categories/pedreiro.svg'),
-    C360Category('Elétrica', Icons.bolt_rounded,
-        categoryId: 'eletricista',
-        iconAsset: 'assets/categories/eletricista.svg'),
-    C360Category('Hidráulica', Icons.water_drop_rounded,
-        categoryId: 'encanador', iconAsset: 'assets/categories/encanador.svg'),
-    C360Category('Limpeza', Icons.cleaning_services_rounded,
-        categoryId: 'diarista', iconAsset: 'assets/categories/diarista.svg'),
-    C360Category('Beleza e Estética', Icons.spa_rounded,
-        categoryId: 'manicure', iconAsset: 'assets/categories/manicure.svg'),
-    C360Category('Saúde e Bem-estar', Icons.favorite_rounded,
-        categoryId: 'medico', iconAsset: 'assets/categories/medico.svg'),
-    C360Category('Veículos e Oficinas', Icons.directions_car_rounded,
-        categoryId: 'mecanico', iconAsset: 'assets/categories/mecanico.svg'),
-    C360Category('Agro e Rural', Icons.agriculture_rounded,
-        categoryId: 'jardineiro',
-        iconAsset: 'assets/categories/jardinagem.svg'),
-    C360Category('Máquinas e Equipamentos', Icons.precision_manufacturing_rounded,
-        route: Routes.rental, iconAsset: 'assets/icons/svg/hammer.svg'),
-    C360Category('Mais Categorias', Icons.add_rounded),
-  ];
+  static List<C360Category> get home => [
+        for (final category in ServiceCatalog.homeCategories)
+          C360Category(
+            category.name,
+            Icons.apps_rounded,
+            categoryId: category.navigation ? null : category.id,
+            iconAsset: category.asset256,
+            catalogId: category.id,
+            pendingArt: category.pendingArt || category.asset == null,
+          ),
+      ];
 }
 
 enum C360Tone { neutral, progress, success, warning, danger }
@@ -279,7 +277,6 @@ class C360PageBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 118,
       decoration: BoxDecoration(
         gradient: AppGradients.hero,
         borderRadius: BorderRadius.circular(22),
@@ -288,35 +285,41 @@ class C360PageBanner extends StatelessWidget {
       child: Stack(children: [
         const Positioned.fill(child: CustomPaint(painter: C360LandscapePainter())),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
           child: Row(children: [
             Container(
-              width: 48,
-              height: 48,
+              width: 44,
+              height: 44,
               decoration: BoxDecoration(
                 color: AppColors.yellow,
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(icon, color: AppColors.sidebar, size: 26),
+              child: Icon(icon, color: AppColors.sidebar, size: 22),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 26,
+                          fontSize: 20,
+                          height: 1.15,
                           fontWeight: FontWeight.w800,
-                          letterSpacing: -0.4)),
-                  const SizedBox(height: 4),
+                          letterSpacing: -0.3)),
+                  const SizedBox(height: 2),
                   Text(subtitle,
-                      style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.88),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Color(0xE0FFFFFF),
                           fontSize: 13,
-                          height: 1.3)),
+                          height: 1.2,
+                          fontWeight: FontWeight.w500)),
                 ],
               ),
             ),
@@ -375,52 +378,12 @@ class C360CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: selected ? AppColors.primarySoft : AppColors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-                color: selected ? AppColors.primary : AppColors.border),
-            boxShadow: [
-              BoxShadow(
-                  color: AppColors.navy.withValues(alpha: 0.04),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4)),
-            ],
-          ),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: AppColors.primarySoft,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: category.iconAsset != null
-                  ? SvgPicture.asset(category.iconAsset!,
-                      width: 44, height: 44, fit: BoxFit.cover)
-                  : Icon(category.icon, color: AppColors.primary, size: 22),
-            ),
-            const SizedBox(height: 8),
-            Text(category.label,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    height: 1.2,
-                    color: AppColors.textDark)),
-          ]),
-        ),
-      ),
+    return OfficialIcon(
+      label: category.label,
+      assetPath: category.iconAsset,
+      pendingArt: category.pendingArt || category.iconAsset == null,
+      selected: selected,
+      onTap: onTap,
     );
   }
 }
@@ -623,6 +586,7 @@ class C360HighlightCard extends StatelessWidget {
   final String? providerId;
   final VoidCallback? onProfile;
   final String? demoLabel;
+  final Widget? emblem;
   const C360HighlightCard({
     super.key,
     required this.name,
@@ -635,6 +599,7 @@ class C360HighlightCard extends StatelessWidget {
     this.providerId,
     this.onProfile,
     this.demoLabel,
+    this.emblem,
   });
 
   @override
@@ -656,11 +621,17 @@ class C360HighlightCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   fontWeight: FontWeight.w800, fontSize: 14)),
-          Text(role,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style:
-                  const TextStyle(fontSize: 12, color: AppColors.textLight)),
+          if (emblem != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: emblem!,
+            )
+          else
+            Text(role,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    fontSize: 12, color: AppColors.textLight)),
           const SizedBox(height: 6),
           if (demoLabel != null)
             Text(demoLabel!,

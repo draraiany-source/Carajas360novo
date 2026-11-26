@@ -46,6 +46,23 @@ function seed() {
   });
 }
 
+test('consultarCategorias usa o catálogo e reconhece ar-condicionado', async () => {
+  const result = await run('consultarCategorias', {
+    query: 'consertar meu ar-condicionado',
+  }, ctx(seed()));
+  assert.equal(result.ok, true);
+  assert.equal(result.data.match.id, 'ar_condicionado');
+  assert.equal(result.data.match.kind, 'profissao');
+  assert.equal(result.data.match.categoryId, 'maquinas-e-equipamentos');
+  const pedreiro = result.data.professions.find((item) => item.id === 'pedreiro');
+  assert.equal(pedreiro.categoryId, 'construcao-e-reforma');
+  const maquinas = result.data.categories.find((item) => item.id === 'maquinas-e-equipamentos');
+  assert.equal(maquinas.pendingArt, false);
+  assert.equal(maquinas.asset, 'maquinas_equipamentos');
+  const verTodas = result.data.categories.find((item) => item.id === 'ver-todas');
+  assert.equal(verTodas.pendingArt, true);
+});
+
 test('ferramenta exige login', async () => {
   const result = await run('consultarCategorias', {}, { db: seed() });
   assert.equal(result.ok, false);

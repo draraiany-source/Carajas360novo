@@ -1,6 +1,24 @@
 # Pendências reais — Carajás 360
 
-Lista do que impede tratar esta árvore como produção. Nada aqui foi “quase feito” com valor inventado. Data da consolidação: 26 de novembro de 2026. Fonte: commit `41467b9` da branch `cursor/entrega-fluxo-completo-45c4`.
+Lista do que impede tratar esta árvore como produção. Nada aqui foi “quase feito” com valor inventado. Data da consolidação: 26 de novembro de 2026. Fonte: commit `41467b9` da branch `cursor/entrega-fluxo-completo-45c4`, com o catálogo de ícones 3D acrescentado depois.
+
+## Ícones oficiais — aguardando arte oficial
+
+A coleção de 1024 px é o master em `design/icones_originais/webp1024/`. Os PNG de 1254 px da rodada anterior saíram para não duplicar peso. Máquinas e Equipamentos e Mais Categorias já têm arquivo. A produção usa WebP 512 (qualidade 92) na grade e 256 só em listas de até 48 px. Os cantos externos do card foram para alpha, sem cortar a borda dourada.
+
+Poses da Tia em `assets/tia_carajas/` estão abaixo de 512 px (apresentando 204×250, avatar 256, orientando 137×210, e as demais entre 221 e 495 px). Não há original maior no repositório, então não foram ampliadas. Precisam de arquivo novo. Logomarcas são SVG. Planos não têm imagem raster.
+
+Ainda sem arte, com cartão discreto e o nome em texto. Não foram inventadas:
+
+- Serviços gerais (`aux_servicos_gerais`)
+- Assistência técnica (`assistencia_tecnica`)
+- Costureira (`costureira`)
+- Cozinheira (`cozinheira`)
+- **Ver Todas**: não há arte própria. A grade usa `mais_categorias.webp` só no atalho Mais Categorias. O texto "Ver todas" do cabeçalho abre o quadro completo, sem um segundo ícone.
+
+Grupos extras sem ilustração de categoria (Pets, Jurídico, Eventos, Tecnologia, Transporte, Drones, Cuidados, Segurança e Portaria) usam o mesmo cartão. Profissões desses grupos que têm WebP mostram a arte.
+
+Nenhum campo novo foi gravado em `providers` ou `orders`. Ids já usados foram preservados. `firebase.json` continua sem bloco `hosting`, então não há header de cache de `/assets` para publicar. iOS segue sem projeto Xcode, como na lista abaixo.
 
 Legenda usada também no PDF: implementada e testada, implementada parcialmente, não implementada, bloqueada por integração externa, aguardando credenciais, reprovada nos testes.
 

@@ -1,11 +1,18 @@
 Licenças de terceiros usadas na interface do Carajás 360.
 O código do aplicativo não traz um LICENSE próprio neste repositório.
 
-Ícones de categoria e a biblioteca em assets/icons/svg
--------------------------------------------------------
+Ícones de categoria
+---------------------
 
-O traço segue Feather Icons e Lucide. Os fundos coloridos das
-categorias são composição do projeto.
+A grade oficial usa a arte 3D do projeto em WebP
+(`assets/icons/categories/` e `assets/icons/subcategories/`).
+Esses arquivos não vêm de Feather nem de Lucide.
+
+Os SVG de categoria que seguiam Feather Icons e Lucide, e a
+biblioteca em `assets/icons/svg/` usada só como fallback dessas
+categorias, foram removidos depois de confirmado que a interface
+não os referencia mais. O texto das licenças fica abaixo como
+registro do que já esteve no repositório.
 
 Feather Icons
 https://github.com/feathericons/feather

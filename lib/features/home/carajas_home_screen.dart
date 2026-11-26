@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../core/catalog/service_catalog.dart';
 import '../../core/constants/runtime_config.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/constants/app_constants.dart';
+import '../catalog/category_browse.dart';
+import '../../shared/widgets/official_icon.dart';
 import '../../core/utils/demo_data.dart';
 import 'home_layout.dart';
 import '../../core/modules/platform_modules.dart';
@@ -13,7 +16,6 @@ import '../profile/plans_screen.dart';
 import '../provider/provider_home_screen.dart';
 import '../tia/tia_screen.dart';
 import '../tia/tia_widgets.dart';
-import 'home_screen.dart';
 import 'provider_profile_screen.dart';
 
 /// Home da plataforma Carajás 360 (mockups Início v1 e v2).
@@ -26,6 +28,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _banner = PageController();
   int _bannerPage = 0;
+  bool _precached = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_precached) return;
+    _precached = true;
+    precacheHomeIcons(context);
+  }
 
   @override
   void dispose() {
@@ -33,21 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void _openCategory(C360Category category) {
-    if (category.route != null) {
-      Navigator.pushNamed(context, category.route!);
-      return;
-    }
-    if (category.categoryId == null) {
-      c360Go(context, C360Dest.explore, Routes.search);
-      return;
-    }
-    c360Open(
-      context,
-      route: Routes.search,
-      arguments: {'category': category.categoryId},
-      page: SearchScreen(initialCategory: category.categoryId),
-    );
+  void _openCategory(CatalogCategory category) {
+    openCatalogCategory(context, category);
   }
 
   void _openProfile(ProviderModel provider) {
@@ -110,7 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       page: const TiaCentralScreen(),
                     ),
                   ),
-                  const SizedBox(height: 22),
+                  const SizedBox(height: 12),
+                  _categoryGrid(),
+                  const SizedBox(height: 12),
                   if (wide)
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,34 +142,32 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _mainColumn(List<ProviderModel> providers,
-      {required bool loading, required bool failed, required bool demo}) {
+  Widget _categoryGrid() {
+    final items = ServiceCatalog.homeCategories;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       C360SectionHeader(
         title: 'Categorias de Serviços',
         action: 'Ver todas',
-        onAction: () => c360Go(context, C360Dest.explore, Routes.search),
-      ),
-      const SizedBox(height: 12),
-      GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: C360Categories.home.length,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: HomeLayout.tileMaxCrossAxisExtent,
-          mainAxisExtent: HomeLayout.tileMainAxisExtent,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemBuilder: (_, i) {
-          final category = C360Categories.home[i];
-          return C360CategoryTile(
-            category: category,
-            onTap: () => _openCategory(category),
-          );
+        onAction: () {
+          final todas = ServiceCatalog.categoryById('ver-todas');
+          if (todas != null) openCatalogCategory(context, todas);
         },
       ),
-      const SizedBox(height: 22),
+      const SizedBox(height: 12),
+      OfficialIconGrid(
+        items: items.map(OfficialIconData.category).toList(),
+        keyPrefix: 'categoria-',
+        onTap: (item) {
+          final category = ServiceCatalog.categoryById(item.id);
+          if (category != null) _openCategory(category);
+        },
+      ),
+    ]);
+  }
+
+  Widget _mainColumn(List<ProviderModel> providers,
+      {required bool loading, required bool failed, required bool demo}) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       C360SectionHeader(
         title: 'Profissionais em Destaque',
         icon: Icons.star_rounded,
@@ -212,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
         )
       else
         SizedBox(
-          height: 248,
+          height: 210,
           child: ValueListenableBuilder<String>(
             valueListenable: RegionController.instance.city,
             builder: (_, city, __) => ListView.separated(
@@ -221,13 +219,25 @@ class _HomeScreenState extends State<HomeScreen> {
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (_, i) {
                 final provider = providers[i];
-                final role = provider.categories.isNotEmpty
-                    ? (Categories.byId(provider.categories.first)?.name ??
-                        provider.categories.first)
-                    : 'Profissional';
+                final profession = provider.categories.isNotEmpty
+                    ? ServiceCatalog.professionById(provider.categories.first)
+                    : null;
+                final role = profession?.name ??
+                    (provider.categories.isNotEmpty
+                        ? provider.categories.first
+                        : 'Profissional');
                 return C360HighlightCard(
                   name: provider.name,
                   role: role,
+                  emblem: profession == null
+                      ? null
+                      : OfficialIcon(
+                          label: profession.name,
+                          assetPath: profession.asset256,
+                          pendingArt: profession.asset == null,
+                          tier: IconTier.list,
+                          caption: true,
+                        ),
                   rating: provider.rating,
                   reviews: provider.totalReviews,
                   photoUrl: provider.photoUrl,
@@ -391,10 +401,11 @@ class _Hero extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       final narrow = HomeLayout.stackedHeroButtons(constraints.maxWidth);
+      final portrait = HomeLayout.tiaHeroHeight(constraints.maxWidth);
       return ClipRRect(
       borderRadius: BorderRadius.circular(22),
       child: SizedBox(
-        height: narrow ? 300 : 236,
+        height: HomeLayout.heroHeight(constraints.maxWidth),
         child: Stack(children: [
           PageView(
             controller: controller,
@@ -415,23 +426,24 @@ class _Hero extends StatelessWidget {
             ],
           ),
           if (HomeLayout.showHeroPortrait(constraints.maxWidth))
-            const Positioned(
-              right: 12,
-              top: 8,
-              child: TiaPortrait(pose: 'apresentando', height: 150),
+            Positioned(
+              right: 6,
+              top: 6,
+              child: TiaPortrait(pose: 'apresentando', height: portrait),
             ),
           Positioned(
             left: 16,
-            right: narrow ? 16 : 170,
-            bottom: 14,
+            right: narrow ? 78 : 130,
+            bottom: 10,
             child: narrow
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      _searchButton(onSearch),
-                      const SizedBox(height: 8),
+                      _searchButton(onSearch, compact: true),
+                      const SizedBox(height: 6),
                       TiaTalkButton(
                         label: 'Falar com a Tia',
+                        compact: true,
                         onPressed: onTia,
                       ),
                     ],
@@ -471,13 +483,16 @@ class _Hero extends StatelessWidget {
     });
   }
 
-  Widget _searchButton(VoidCallback onSearch) {
+  Widget _searchButton(VoidCallback onSearch, {bool compact = false}) {
     return ElevatedButton.icon(
       onPressed: onSearch,
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.yellow,
         foregroundColor: AppColors.sidebar,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        visualDensity: compact ? VisualDensity.compact : VisualDensity.standard,
+        tapTargetSize: compact ? MaterialTapTargetSize.shrinkWrap : null,
+        minimumSize: compact ? const Size(0, 36) : null,
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: compact ? 8 : 12),
       ),
       icon: const Icon(Icons.search_rounded, size: 18),
       label: const Text('Buscar serviços'),
@@ -514,7 +529,7 @@ class _HeroSlide extends StatelessWidget {
       child: Stack(children: [
         const Positioned.fill(child: CustomPaint(painter: C360LandscapePainter())),
         Padding(
-          padding: EdgeInsets.fromLTRB(22, compact ? 36 : 22, compact ? 22 : 150, 88),
+          padding: EdgeInsets.fromLTRB(18, compact ? 12 : 16, compact ? 78 : 120, compact ? 84 : 56),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -532,22 +547,24 @@ class _HeroSlide extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.6)),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: compact ? 6 : 8),
               Text(title,
-                  maxLines: 3,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: compact ? 22 : 26,
+                      fontSize: compact ? 18 : 26,
                       fontWeight: FontWeight.w800,
-                      height: 1.15,
+                      height: 1.12,
                       letterSpacing: -0.4)),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               Text(subtitle,
+                  maxLines: compact ? 1 : 2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.9),
-                      fontSize: 14,
-                      height: 1.35)),
+                      fontSize: compact ? 12 : 14,
+                      height: 1.25)),
             ],
           ),
         ),
